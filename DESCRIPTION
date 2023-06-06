@@ -1,0 +1,31 @@
+Package: VS
+Type: Package
+Title: Variable System
+Version: 0.0.1.0002
+Authors@R: c(person("Wai", "Chan", role = c("aut"), 
+                    email = "wchan@cuhk.edu.hk",
+                    comment = c(ORCID = "0000-0002-7344-2606")),
+             person("Joyce Lok Yin", "Kwan", role = c("aut", "cre"), 
+                    email = "jlykwan@eduhk.hk",
+                    comment = c(ORCID = "0000-0001-5857-6828")),
+             person("Yik Ting", "Choi", role = "aut", 
+                    email = "tingtingcherry@gmail.com"),
+             person("Jacky Chi Kit", "Ng", role = c("aut"),
+                    email = "jackyck.ng@polyu.edu.hk",
+                    comment = c(ORCID = "0000-0003-2723-4387"))
+             )
+Description: The Variable System (VS) is a program for the analysis of 
+    conditional path models using Structural Equation Modeling (SEM). 
+    VS is a powerful tool that helps applied researchers, students, 
+    academic professionals who have some basic knowledge in SEM to 
+    develop and evaluate a wide range of theoretical models by providing 
+    (1) basic model parameter estimates and their tests,
+    (2) overall model goodness of fit evaluations, and
+    (3) estimates and tests for complex conditional direct and indirect effects.
+Depends: R (>= 4.1.0)
+Imports:
+    lavaan, stats
+License: GPL (>= 3)
+Encoding: UTF-8
+LazyData: true
+RoxygenNote: 7.2.3
