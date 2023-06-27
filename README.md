@@ -1,4 +1,5 @@
-# Variable System (VS)
+# Variable System (*VS*)
+
 *VS* (Variable System) is a free open-source statistical package for the analysis of conditional path models based on 
 structural equation modeling (SEM). It can be used to examine models with simple mediation, simple moderation, 
 moderated mediation (moME), mediated moderation (meMO), and any combinations of them.
@@ -11,6 +12,7 @@ package will automatically
 4. evaluate the model goodness-of-fit. 
 
 ## Install the *VS* package
+
 *VS* is an R package. Before installing the *VS* package, you will need to have R installed on your computer.
 While it is possible to use R without RStudio, which is an integrated development environment (IDE) for R,
 you may also want to consider installing RStudio as it provides a user-friendly interface and many useful
@@ -36,18 +38,18 @@ install.packages("devtools")
 library(devtools)
 install_github("VSquanpsy/VS")
 ```
-
+\
 To start using the *VS* package, you can load the *VS* package
 ```{r, eval = FALSE}
 library(VS)
 ```
-
+\
 Try out the following example. If you can see the output, *VS* is successfully installed and you
 can now use *VS* for conditional path analysis!
 ```{r, eval = FALSE}
 example(VS_summary)
 ```
-
+\
 To view the *VS* documentation, type:
 ```{r, eval = FALSE}
 help(VS)
