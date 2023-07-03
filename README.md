@@ -22,13 +22,13 @@ features for working with R.
 *VS* package requires R version 4.2.0 or above.  You can download R from the R-project website and select
 a version of R that matches your computer operating system.
 
-[Download and install R](https://cran.rstudio.com/)
+* [Download and install R](https://cran.rstudio.com/)
 
 ### 2. Install RStudio (optional)
 While it is possible to use R without RStudio, R beginners are recommended to use R in RStudio.
 You can download and install RStudio by following the installation instruction on the RStudio website.
 
-[Download and install RStudio](https://posit.co/download/rstudio-desktop/)
+* [Download and install RStudio](https://posit.co/download/rstudio-desktop/)
 
 ### 3. Install *VS* package
 After you have installed R and RStudio, you can install the *VS* package by starting up R, and
