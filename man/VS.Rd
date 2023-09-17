@@ -49,9 +49,10 @@ interval required. Can be \code{"norm"} for first order normal approximation,
 interval (default), or \code{"bca.simple"} for adjusted bootstrap percentile (BCa)
 interval with no correction for acceleration (only for bias).}
 
-\item{local.dep}{A logical value indicating whether the covariance between first order
-interactions will be added. If value = \code{FALSE}, it is recommended to use
-\code{"center"} or \code{"std"} as the scaling method of the data.}
+\item{local.dep}{A logical value indicating whether the error covariance and error-IV
+covariance involving the two-way interactions will be added. If value = \code{FALSE},
+it is recommended to use \code{"center"} or \code{"std"} as the scaling method of the
+data.}
 }
 \value{
 A list containing the information of the \code{VS} model.
@@ -113,22 +114,27 @@ for further result computations.
 }
 \examples{
 modelspec <- '
- JOYREAD = HEDRES
- HEDRES->JOYREAD = STIMREAD
- STIMREAD = FEMALE
+ PV1MATH = MATHEFF
+ MATHEFF->PV1MATH = ESCS + HEDRES
+ HEDRES = ESCS
  '
 effectspec <- '
- IV1 = HEDRES
- DV1 = JOYREAD
+ IV1 = MATHEFF
+ DV1 = PV1MATH
  '
-VS_model <- VS(PISA2018HK, model = modelspec, effect = effectspec, scale = "center",
-               categorical = "FEMALE")
-VS_group <- VS(PISA2018HK, model = modelspec, effect = effectspec, group = "IMMIG",
-               scale = "center", categorical = "FEMALE")
+# VS model with centered data
+VS_model <- VS(PISA2012HK, model = modelspec, effect = effectspec, scale = "center")
+# VS multi-sample model with centered data
+VS_group <- VS(PISA2012HK, model = modelspec, effect = effectspec, group = "IMMIG",
+               scale = "center")
 
 }
 \references{
-Joyce Lok Yin Kwan & Wai Chan. (2018). Variable System: An alternative approach for the analysis of
+Kwan, J. L.-Y., & Chan, W. (2018). Variable System: An alternative approach for the analysis of
   mediated moderation.  Psychological Methods, 23(2), 262-277.
   \doi{https://doi.org/10.1037/met0000160}
+Kwan, J. L. Y., Chan, W., Ng, J. C. K., Choi, C. Y. T., & Kwan, K. T. (2023, May). Conditional Path
+  Analysis: The Analytical Framework of Mediated Moderation [Paper Presentation]. The 14th Asian
+  Conference on the Social Sciences, Tokyo, Japan.
+  {https://acss.iafor.org/presentation/submission70750/}
 }

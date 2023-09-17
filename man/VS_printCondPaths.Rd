@@ -16,16 +16,15 @@ If any, print the labels of the conditional effect paths and the remarks for the
 }
 \examples{
 modelspec <- '
- JOYREAD = HEDRES
- HEDRES->JOYREAD = STIMREAD
- STIMREAD = FEMALE
+ PV1MATH = MATHEFF
+ MATHEFF->PV1MATH = ESCS + HEDRES
+ HEDRES = ESCS
  '
 effectspec <- '
- IV1 = HEDRES
- DV1 = JOYREAD
+ IV1 = MATHEFF
+ DV1 = PV1MATH
  '
-VS_model <- VS(PISA2018HK, model = modelspec, effect = effectspec, scale = "center",
-               categorical = "FEMALE")
+VS_model <- VS(PISA2012HK, model = modelspec, effect = effectspec, scale = "center")
 
 VS_printCondPaths(VS_model)
 

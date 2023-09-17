@@ -21,23 +21,22 @@ Print the parameter estimates and confidence intervals of the \code{VS} model.
 }
 \examples{
 modelspec <- '
- JOYREAD = HEDRES
- HEDRES->JOYREAD = STIMREAD
- STIMREAD = FEMALE
+ PV1MATH = MATHEFF
+ MATHEFF->PV1MATH = ESCS + HEDRES
+ HEDRES = ESCS
  '
 effectspec <- '
- IV1 = HEDRES
- DV1 = JOYREAD
+ IV1 = MATHEFF
+ DV1 = PV1MATH
  '
-VS_model <- VS(PISA2018HK, model = modelspec, effect = effectspec, scale = "center",
-               categorical = "FEMALE")
-VS_boot <- VS(PISA2018HK, model = modelspec, effect = effectspec, scale = "center",
-               categorical = "FEMALE", bootstrap = 100, boot.ci.type = "norm")
+# VS model with centered data with first order normal approximation bootstrapping C.I.
+VS_boot <- VS(PISA2012HK, model = modelspec, effect = effectspec, scale = "center",
+              bootstrap = 100, boot.ci.type = "norm")
 
 # print the parameter estimates with model specified C.I.
-VS_printParameters(VS_model)
+VS_printParameters(VS_boot)
 
 # print the parameter estimates bootstrap percentile interval
-VS_printParameters(VS_model, "perc")
+VS_printParameters(VS_boot, "perc")
 
 }

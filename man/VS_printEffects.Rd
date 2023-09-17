@@ -19,18 +19,20 @@ Print the conditional effect table of the \code{VS} output data in \code{VS} sty
 }
 \examples{
 modelspec <- '
- JOYREAD = HEDRES
- HEDRES->JOYREAD = STIMREAD
- STIMREAD = FEMALE
+ PV1MATH = MATHEFF
+ MATHEFF->PV1MATH = ESCS + HEDRES
+ HEDRES = ESCS
  '
 effectspec <- '
- IV1 = HEDRES
- DV1 = JOYREAD
+ IV1 = MATHEFF
+ DV1 = PV1MATH
  '
-VS_model <- VS(PISA2018HK, model = modelspec, effect = effectspec, scale = "center",
-               categorical = "FEMALE")
-VS_group <- VS(PISA2018HK, model = modelspec, effect = effectspec, group = "IMMIG",
-               scale = "center", categorical = "FEMALE")
+# VS model with centered data
+VS_model <- VS(PISA2012HK, model = modelspec, effect = effectspec, scale = "center")
+# VS multi-sample model with centered data
+VS_group <- VS(PISA2012HK, model = modelspec, effect = effectspec, group = "IMMIG",
+               scale = "center")
+# VS multi-sample model constrainted by group with centered data
 VS_group_equal <- VS_groupEqual(VS_group, effect.equal = 2)
 
 # print the conditional effect table for a VS model

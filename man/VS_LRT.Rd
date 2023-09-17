@@ -19,16 +19,18 @@ Compute the likelihood ratio test statistics comparing nested \code{VS} models.
 }
 \examples{
 modelspec <- '
- JOYREAD = HEDRES
- HEDRES->JOYREAD = STIMREAD
- STIMREAD = FEMALE
+ PV1MATH = MATHEFF
+ MATHEFF->PV1MATH = ESCS + HEDRES
+ HEDRES = ESCS
  '
 effectspec <- '
- IV1 = HEDRES
- DV1 = JOYREAD
+ IV1 = MATHEFF
+ DV1 = PV1MATH
  '
-VS_group <- VS(PISA2018HK, model = modelspec, effect = effectspec, group = "IMMIG",
-               scale = "center", categorical = "FEMALE")
+# VS multi-sample model with centered data
+VS_group <- VS(PISA2012HK, model = modelspec, effect = effectspec, group = "IMMIG",
+               scale = "center")
+# VS multi-sample model constrainted by group with centered data
 VS_group_equal <- VS_groupEqual(VS_group, effect.equal = 2)
 
 model_test <- VS_LRT(VS_group, VS_group_equal)
