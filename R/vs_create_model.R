@@ -1,5 +1,3 @@
-# vs_create_model
-#
 # Create Lavaan model syntax for running SEM with Lavaan
 
 vs_create_model <- function(vs.env = NULL, equation = NULL, covariance = NULL) {
@@ -11,14 +9,14 @@ vs_create_model <- function(vs.env = NULL, equation = NULL, covariance = NULL) {
     if (nrow(equation) > 0 && ncol(equation) > 0) {
       VSmodel <- paste0(VSmodel, "# regression equations\n")
       for (i in 1:nrow(equation)) {
-        VSmodel <- paste0(VSmodel, "  ", rownames(equation)[i], "~")
+        VSmodel <- paste0(VSmodel, "  ", rownames(equation)[i], " ~ ")
         firstterm <- 1
         for (j in 1:ncol(equation)) {
           if (equation[i, j] > 0) {
             if (firstterm == 0) {
-              VSmodel <- paste0(VSmodel, "+")
+              VSmodel <- paste0(VSmodel, " + ")
             }
-            VSmodel <- paste0(VSmodel, "a", equation[i, j], "*", colnames(equation)[j])
+            VSmodel <- paste0(VSmodel, "a", equation[i, j], " * ", colnames(equation)[j])
             firstterm <- 0
           }
         }
@@ -40,11 +38,11 @@ vs_create_model <- function(vs.env = NULL, equation = NULL, covariance = NULL) {
               firstrow <- 0
             }
             if (firstterm == 1) {
-              VSmodel <- paste0(VSmodel, "  ", colnames(equation)[i], "~~")
+              VSmodel <- paste0(VSmodel, "  ", colnames(equation)[i], " ~~ ")
             } else {
-              VSmodel <- paste0(VSmodel, "+")
+              VSmodel <- paste0(VSmodel, " + ")
             }
-            VSmodel <- paste0(VSmodel, "c", covariance[i, j], "*", colnames(equation)[j])
+            VSmodel <- paste0(VSmodel, "c", covariance[i, j], " * ", colnames(equation)[j])
             firstterm <- 0
           }
         }
@@ -66,8 +64,8 @@ vs_create_model <- function(vs.env = NULL, equation = NULL, covariance = NULL) {
             VSmodel <- paste0(VSmodel, "\n# variances\n")
             firstrow <- 0
           }
-          VSmodel <- paste0(VSmodel, "  ", colnames(equation)[i], "~~")
-          VSmodel <- paste0(VSmodel, "v", covariance[i, i], "*", colnames(equation)[i], "\n")
+          VSmodel <- paste0(VSmodel, "  ", colnames(equation)[i], " ~~ ")
+          VSmodel <- paste0(VSmodel, "v", covariance[i, i], " * ", colnames(equation)[i], "\n")
         }
       }
     }
@@ -106,11 +104,11 @@ vs_create_model <- function(vs.env = NULL, equation = NULL, covariance = NULL) {
                       if (l == 1) {
                         ap <- paste0("a", vs.env$EffAPcoef[Eff, l, 1])
                       } else {
-                        ap <- paste0(ap, "+a", vs.env$EffAPcoef[Eff, l, 1])
+                        ap <- paste0(ap, " + a", vs.env$EffAPcoef[Eff, l, 1])
                       }
                       if (vs.env$nEffAPcoefs[Eff, l] > 1) {
                         for (m in 2:vs.env$nEffAPcoefs[Eff, l]) {
-                          ap <- paste0(ap, "*a", vs.env$EffAPcoef[Eff, l, m])
+                          ap <- paste0(ap, " * a", vs.env$EffAPcoef[Eff, l, m])
                         }
                       }
                     }
@@ -118,7 +116,7 @@ vs_create_model <- function(vs.env = NULL, equation = NULL, covariance = NULL) {
                   if (nap == 1) {
                     VSmodel <- paste0(VSmodel, "\n# additional parameters\n")
                   }
-                  VSmodel <- paste0(VSmodel, "  ap", nap, ":=", ap, "\n")
+                  VSmodel <- paste0(VSmodel, "  ap", nap, " := ", ap, "\n")
                 }
                 if (length(TotalEff) > 1) {
                   nap <- nap + 1
@@ -133,10 +131,10 @@ vs_create_model <- function(vs.env = NULL, equation = NULL, covariance = NULL) {
                     if (k == 1) {
                       ap <- paste0("ap", TotalEff[k])
                     } else {
-                      ap <- paste0(ap, "+ap", TotalEff[k])
+                      ap <- paste0(ap, " + ap", TotalEff[k])
                     }
                   }
-                  VSmodel <- paste0(VSmodel, "  ap", nap, ":=", ap, "\n")
+                  VSmodel <- paste0(VSmodel, "  ap", nap, " := ", ap, "\n")
                 }
               }
             }

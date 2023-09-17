@@ -14,18 +14,20 @@
 #'
 #' @examples
 #' modelspec <- '
-#'  JOYREAD = HEDRES
-#'  HEDRES->JOYREAD = STIMREAD
-#'  STIMREAD = FEMALE
+#'  PV1MATH = MATHEFF
+#'  MATHEFF->PV1MATH = ESCS + HEDRES
+#'  HEDRES = ESCS
 #'  '
 #' effectspec <- '
-#'  IV1 = HEDRES
-#'  DV1 = JOYREAD
+#'  IV1 = MATHEFF
+#'  DV1 = PV1MATH
 #'  '
-#' VS_model <- VS(PISA2018HK, model = modelspec, effect = effectspec, scale = "center",
-#'                categorical = "FEMALE")
-#' VS_group <- VS(PISA2018HK, model = modelspec, effect = effectspec, group = "IMMIG",
-#'                scale = "center", categorical = "FEMALE")
+#' # VS model with centered data
+#' VS_model <- VS(PISA2012HK, model = modelspec, effect = effectspec, scale = "center")
+#' # VS multi-sample model with centered data
+#' VS_group <- VS(PISA2012HK, model = modelspec, effect = effectspec, group = "IMMIG",
+#'                scale = "center")
+#' # VS multi-sample model constrainted by group with centered data
 #' VS_group_equal <- VS_groupEqual(VS_group, effect.equal = 2)
 #'
 #' # get the covariance matrix for a VS model
@@ -94,18 +96,20 @@ VS_getCov <- function(output = NULL, groupid = "printall") {
 #'
 #' @examples
 #' modelspec <- '
-#'  JOYREAD = HEDRES
-#'  HEDRES->JOYREAD = STIMREAD
-#'  STIMREAD = FEMALE
+#'  PV1MATH = MATHEFF
+#'  MATHEFF->PV1MATH = ESCS + HEDRES
+#'  HEDRES = ESCS
 #'  '
 #' effectspec <- '
-#'  IV1 = HEDRES
-#'  DV1 = JOYREAD
+#'  IV1 = MATHEFF
+#'  DV1 = PV1MATH
 #'  '
-#' VS_model <- VS(PISA2018HK, model = modelspec, effect = effectspec, scale = "center",
-#'                categorical = "FEMALE")
-#' VS_group <- VS(PISA2018HK, model = modelspec, effect = effectspec, group = "IMMIG",
-#'                scale = "center", categorical = "FEMALE")
+#' # VS model with centered data
+#' VS_model <- VS(PISA2012HK, model = modelspec, effect = effectspec, scale = "center")
+#' # VS multi-sample model with centered data
+#' VS_group <- VS(PISA2012HK, model = modelspec, effect = effectspec, group = "IMMIG",
+#'                scale = "center")
+#' # VS multi-sample model constrainted by group with centered data
 #' VS_group_equal <- VS_groupEqual(VS_group, effect.equal = 2)
 #'
 #' # get the correlation matrix for a VS model
@@ -173,18 +177,20 @@ VS_getCor <- function(output = NULL, groupid = "printall") {
 #'
 #' @examples
 #' modelspec <- '
-#'  JOYREAD = HEDRES
-#'  HEDRES->JOYREAD = STIMREAD
-#'  STIMREAD = FEMALE
+#'  PV1MATH = MATHEFF
+#'  MATHEFF->PV1MATH = ESCS + HEDRES
+#'  HEDRES = ESCS
 #'  '
 #' effectspec <- '
-#'  IV1 = HEDRES
-#'  DV1 = JOYREAD
+#'  IV1 = MATHEFF
+#'  DV1 = PV1MATH
 #'  '
-#' VS_model <- VS(PISA2018HK, model = modelspec, effect = effectspec, scale = "center",
-#'                categorical = "FEMALE")
-#' VS_group <- VS(PISA2018HK, model = modelspec, effect = effectspec, group = "IMMIG",
-#'                scale = "center", categorical = "FEMALE")
+#' # VS model with centered data
+#' VS_model <- VS(PISA2012HK, model = modelspec, effect = effectspec, scale = "center")
+#' # VS multi-sample model with centered data
+#' VS_group <- VS(PISA2012HK, model = modelspec, effect = effectspec, group = "IMMIG",
+#'                scale = "center")
+#' # VS multi-sample model constrainted by group with centered data
 #' VS_group_equal <- VS_groupEqual(VS_group, effect.equal = 2)
 #'
 #' # get the mean vector for a VS model
@@ -251,18 +257,20 @@ VS_getMean <- function(output = NULL, groupid = "printall") {
 #'
 #' @examples
 #' modelspec <- '
-#'  JOYREAD = HEDRES
-#'  HEDRES->JOYREAD = STIMREAD
-#'  STIMREAD = FEMALE
+#'  PV1MATH = MATHEFF
+#'  MATHEFF->PV1MATH = ESCS + HEDRES
+#'  HEDRES = ESCS
 #'  '
 #' effectspec <- '
-#'  IV1 = HEDRES
-#'  DV1 = JOYREAD
+#'  IV1 = MATHEFF
+#'  DV1 = PV1MATH
 #'  '
-#' VS_model <- VS(PISA2018HK, model = modelspec, effect = effectspec, scale = "center",
-#'                categorical = "FEMALE")
-#' VS_group <- VS(PISA2018HK, model = modelspec, effect = effectspec, group = "IMMIG",
-#'                scale = "center", categorical = "FEMALE")
+#' # VS model with centered data
+#' VS_model <- VS(PISA2012HK, model = modelspec, effect = effectspec, scale = "center")
+#' # VS multi-sample model with centered data
+#' VS_group <- VS(PISA2012HK, model = modelspec, effect = effectspec, group = "IMMIG",
+#'                scale = "center")
+#' # VS multi-sample model constrainted by group with centered data
 #' VS_group_equal <- VS_groupEqual(VS_group, effect.equal = 2)
 #'
 #' # get the conditional effect table for a VS model
@@ -378,16 +386,18 @@ VS_getEffects <- function(output = NULL, groupid = "printall", boot.ci.type = "p
 #'
 #' @examples
 #' modelspec <- '
-#'  JOYREAD = HEDRES
-#'  HEDRES->JOYREAD = STIMREAD
-#'  STIMREAD = FEMALE
+#'  PV1MATH = MATHEFF
+#'  MATHEFF->PV1MATH = ESCS + HEDRES
+#'  HEDRES = ESCS
 #'  '
 #' effectspec <- '
-#'  IV1 = HEDRES
-#'  DV1 = JOYREAD
+#'  IV1 = MATHEFF
+#'  DV1 = PV1MATH
 #'  '
-#' VS_group <- VS(PISA2018HK, model = modelspec, effect = effectspec, group = "IMMIG",
-#'                scale = "center", categorical = "FEMALE")
+#' # VS multi-sample model with centered data
+#' VS_group <- VS(PISA2012HK, model = modelspec, effect = effectspec, group = "IMMIG",
+#'                scale = "center")
+#' # VS multi-sample model constrainted by group with centered data
 #' VS_group_equal <- VS_groupEqual(VS_group, effect.equal = 2)
 #'
 #' model_test <- VS_LRT(VS_group, VS_group_equal)
@@ -440,25 +450,24 @@ VS_LRT <- function(output, ...) {
 #' rule of thumb, the effect is considered to be a genuine one when I_wz > -.8.
 #'
 #' @references
-#' Chi Kit Jacky Ng, Lok Yin Joyce Kwan & Wai Chan (2023). A Note on Evaluating the
+#' Ng, C. K. J., Kwan, L. Y. J., & Chan, W. (2023). A Note on Evaluating the
 #'   Moderated Mediation Effect. Structural Equation Modeling: A Multidisciplinary
 #'   Journal. \doi{https://doi.org/10.1080/10705511.2023.2201396}
 #'
 #' @examples
 #' modelspec <- '
-#'  JOYREAD = TEACHSUP STIMREAD
-#'  STIMREAD = TEACHSUP
-#'  STIMREAD->JOYREAD = GRADE
-#'  TEACHSUP->STIMREAD = FEMALE
+#'  PV1MATH = MATHEFF + INTMAT
+#'  MATHEFF->PV1MATH = HEDRES
+#'  MATHEFF = INTMAT
+#'  INTMAT->MATHEFF-> = HOMEPOS
 #'  '
 #' effectspec <- '
-#'  IV1 = TEACHSUP
-#'  DV1 = JOYREAD
+#'  IV1 = INTMAT
+#'  DV1 = PV1MATH
 #'  '
-#' VS_model <- VS(PISA2018HK, model = modelspec, effect = effectspec, scale = "center",
-#'                categorical = "FEMALE")
-#' VS_group <- VS(PISA2018HK, model = modelspec, effect = effectspec, group = "IMMIG",
-#'                scale = "center", categorical = "FEMALE")
+#' VS_model <- VS(PISA2012HK, model = modelspec, effect = effectspec, scale = "center")
+#' VS_group <- VS(PISA2012HK, model = modelspec, effect = effectspec, group = "IMMIG",
+#'                scale = "center")
 #'
 #' # get the Iwz for a VS model
 #' Iwz <- VS_getIwz(VS_model)

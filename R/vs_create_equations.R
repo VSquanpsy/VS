@@ -1,5 +1,3 @@
-# vs_create_equations
-#
 # Create equations for the computation of the conditional effects
 
 vs_create_equations <- function(vs.env = NULL) {
@@ -116,8 +114,6 @@ vs_create_equations <- function(vs.env = NULL) {
 }
 
 
-# vs_decompose_equations
-#
 # Decompose equations into the conditional effects for the user specified paths
 
 vs_decompose_equations <- function(vs.env = NULL, matrices = NULL) {
@@ -189,8 +185,6 @@ vs_decompose_equations <- function(vs.env = NULL, matrices = NULL) {
 }
 
 
-# vs_decompose_direct
-#
 # Decompose equations of direct effects into the conditional effects for the user specified paths
 
 vs_decompose_direct <- function(vs.env = NULL, EffectID = NULL) {
@@ -381,8 +375,6 @@ vs_decompose_direct <- function(vs.env = NULL, EffectID = NULL) {
 }
 
 
-# vs_decompose_interactions
-#
 # Decompose equations of highest order interactions into the conditional effects for the user specified paths
 
 vs_decompose_interactions <- function(vs.env = NULL, EffectID = NULL) {
@@ -436,49 +428,6 @@ vs_decompose_interactions <- function(vs.env = NULL, EffectID = NULL) {
       }
     }
   }
-
-# Check for highest order interactions
-#  for (i in (vs.env$uDirEff[EffectID]+1):vs.env$nEff) {
-#    statement <- paste0(vs.env$Varnames[vs.env$EffPath[i, 1]], ": ")
-#    for (j in 1:vs.env$nEffcoefs[i, 1]) {
-#      if (j == 1) {
-#        statement <- paste0(statement, "a", vs.env$Effcoef[i, 1, j])
-#      } else {
-#        statement <- paste0(statement, " * a", vs.env$Effcoef[i, 1, j])
-#      }
-#    }
-#    for (j in 1:vs.env$nEffvars[i]) {
-#      statement <- paste0(statement, " * ", vs.env$Varnames[vs.env$Effvar[i, j]])
-#      if (vs.env$EffIV[i, j] == 1) {
-#        statement <- paste0(statement, "(I)")
-#      }
-#      if (vs.env$EffMod[i, j] == 1) {
-#        statement <- paste0(statement, "(M)")
-#      }
-#      statement <- paste0(statement, "(", vs.env$EffOrder[i, j])
-#      if (vs.env$EffMod[i, j] == 1) {
-#        statement <- paste0(statement, ",", vs.env$EffMPath[i, j, 1])
-#      }
-#      statement <- paste0(statement, ")")
-#    }
-#    cat(statement, "\n")
-#  }
-
-# Check for focal IV and focal moderators
-#  statement <- "Focal IV:"
-#  for (i in 1:vs.env$N) {
-#    if (vs.env$focalIV[i] == 1) {
-#      statement <- paste(statement, vs.env$Varnames[i])
-#    }
-#  }
-#  cat(statement, "\n")
-#  statement <- "Focal Mod:"
-#  for (i in 1:vs.env$N) {
-#    if (vs.env$focalMod[i] == 1) {
-#      statement <- paste(statement, vs.env$Varnames[i])
-#    }
-#  }
-#  cat(statement, "\n")
 
   # Decomposition of moderators in highest order interactions
   all_decomposed <- 0
@@ -730,38 +679,6 @@ vs_decompose_interactions <- function(vs.env = NULL, EffectID = NULL) {
       }
     }
   }
-
-# Check results
-#  cat(paste("Moderator decomposed: N terms =", vs.env$nEff, "\n"))
-#  start <- 1
-#  if (EffectID > 1) {
-#    start <- vs.env$uEff[EffectID-1] + 1
-#  }
-#  for (i in start:vs.env$nEff) {
-#    statement <- vs.env$Varnames[vs.env$EffPath[i, 1]]
-#    if (vs.env$nEffPaths[i] > 1) {
-#      for (j in 2:vs.env$nEffPaths[i]) {
-#        statement <- paste(statement, "<-", vs.env$Varnames[vs.env$EffPath[i, j]])
-#      }
-#    }
-#    statement <- paste0(statement, ":")
-#    if (vs.env$nEffcoefs[i, 1] > 0) {
-#      for (j in 1:vs.env$nEffcoefs[i, 1]) {
-#        statement <- paste0(statement, " a", vs.env$Effcoef[i, 1, j], "(", vs.env$Varnames[vs.env$EffoutX[i, 1, j]], ",", vs.env$Varnames[vs.env$EffoutY[i, 1, j]], ")")
-#      }
-#    }
-#    if (vs.env$nEffvars[i] > 0) {
-#      for (j in 1:vs.env$nEffvars[i]) {
-#        statement <- paste0(statement, " ", vs.env$Varnames[vs.env$Effvar[i, j]])
-#        if (vs.env$nEffMPaths[i, j] > 0) {
-#          for (k in 1:vs.env$nEffMPaths[i, j]) {
-#            statement <- paste0(statement, "(", vs.env$Varnames[vs.env$EffMPath[i, j, k]], ")")
-#          }
-#        }
-#      }
-#    }
-#    cat(i, statement, "\n")
-#  }
 
   # Decomposition of mediators in highest order interactions
   all_decomposed <- 0
@@ -1037,44 +954,10 @@ vs_decompose_interactions <- function(vs.env = NULL, EffectID = NULL) {
   }
   vs.env$uEff[EffectID] <- vs.env$nEff
 
-# Check results
-#  cat(paste("Meidator decomposed: N terms =", vs.env$nEff, "\n"))
-#  start <- 1
-#  if (EffectID > 1) {
-#    start <- vs.env$uEff[EffectID-1] + 1
-#  }
-#  for (i in start:vs.env$nEff) {
-#    statement <- vs.env$Varnames[vs.env$EffPath[i, 1]]
-#    if (vs.env$nEffPaths[i] > 1) {
-#      for (j in 2:vs.env$nEffPaths[i]) {
-#        statement <- paste(statement, "<-", vs.env$Varnames[vs.env$EffPath[i, j]])
-#      }
-#    }
-#    statement <- paste0(statement, ":")
-#    if (vs.env$nEffcoefs[i, 1] > 0) {
-#      for (j in 1:vs.env$nEffcoefs[i, 1]) {
-#        statement <- paste0(statement, " a", vs.env$Effcoef[i, 1, j], "(", vs.env$Varnames[vs.env$EffoutX[i, 1, j]], ",", vs.env$Varnames[vs.env$EffoutY[i, 1, j]], ")")
-#      }
-#    }
-#    if (vs.env$nEffvars[i] > 0) {
-#      for (j in 1:vs.env$nEffvars[i]) {
-#        statement <- paste0(statement, " ", vs.env$Varnames[vs.env$Effvar[i, j]])
-#        if (vs.env$nEffMPaths[i, j] > 0) {
-#          for (k in 1:vs.env$nEffMPaths[i, j]) {
-#            statement <- paste0(statement, "(", vs.env$Varnames[vs.env$EffMPath[i, j, k]], ")")
-#          }
-#        }
-#      }
-#    }
-#    cat(i, statement, "\n")
-#  }
-
   vs.env
 }
 
 
-# vs_clean_effects
-#
 # Move focal IV to path, pick up paths with focal DV, and tidy up effect order
 
 vs_clean_effects <- function(vs.env = NULL, EffectID = NULL) {
@@ -1316,44 +1199,10 @@ vs_clean_effects <- function(vs.env = NULL, EffectID = NULL) {
     }
   }
 
-# Check results
-#  cat(paste("Effects cleaned: N terms =", vs.env$nEff, "\n"))
-#  start <- 1
-#  if (EffectID > 1) {
-#    start <- vs.env$uEff[EffectID-1] + 1
-#  }
-#  for (i in start:vs.env$nEff) {
-#    statement <- vs.env$Varnames[vs.env$EffPath[i, 1]]
-#    if (vs.env$nEffPaths[i] > 1) {
-#      for (j in 2:vs.env$nEffPaths[i]) {
-#        statement <- paste(statement, "<-", vs.env$Varnames[vs.env$EffPath[i, j]])
-#      }
-#    }
-#    statement <- paste0(statement, ":")
-#    if (vs.env$nEffcoefs[i, 1] > 0) {
-#      for (j in 1:vs.env$nEffcoefs[i, 1]) {
-#        statement <- paste0(statement, " a", vs.env$Effcoef[i, 1, j], "(", vs.env$Varnames[vs.env$EffoutX[i, 1, j]], ",", vs.env$Varnames[vs.env$EffoutY[i, 1, j]], ")")
-#      }
-#    }
-#    if (vs.env$nEffvars[i] > 0) {
-#      for (j in 1:vs.env$nEffvars[i]) {
-#        statement <- paste0(statement, " ", vs.env$Varnames[vs.env$Effvar[i, j]])
-#        if (vs.env$nEffMPaths[i, j] > 0) {
-#          for (k in 1:vs.env$nEffMPaths[i, j]) {
-#            statement <- paste0(statement, "(", vs.env$Varnames[vs.env$EffMPath[i, j, k]], ")")
-#          }
-#        }
-#      }
-#    }
-#    cat(i, statement, "\n")
-#  }
-
   vs.env
 }
 
 
-# vs_declare_effects
-#
 # create and store conditional effect paths and mark effects with same path and sources
 
 vs_declare_effects <- function(vs.env = NULL, EffectID = NULL) {
@@ -1579,55 +1428,10 @@ vs_declare_effects <- function(vs.env = NULL, EffectID = NULL) {
     }
   }
 
-
-# Check effects combination
-#  cat("Effects combined\n")
-#  for (i in 1:vs.env$nEff) {
-#    if (vs.env$EffDel[i] == 0) {
-#      statement <- paste(i, vs.env$Varnames[vs.env$EffPath[i, 1]])
-#      if (vs.env$nEffPaths[i] > 1) {
-#        for (j in 2:vs.env$nEffPaths[i]) {
-#          statement <- paste(statement, "<-", vs.env$Varnames[vs.env$EffPath[i, j]])
-#        }
-#      }
-#      statement <- paste0(statement, ":")
-#      if (vs.env$nEffterms[i] > 0) {
-#        for (j in 1:vs.env$nEffterms[i]) {
-#          if (vs.env$nEffcoefs[i, j] > 0) {
-#            for (k in 1:vs.env$nEffcoefs[i, j]) {
-#              statement <- paste0(statement, " a", vs.env$Effcoef[i, j, k], "(", vs.env$Varnames[vs.env$EffoutX[i, j, k]], ",", vs.env$Varnames[vs.env$EffoutY[i, j, k]], ")")
-#            }
-#          }
-#        }
-#      }
-#      if (vs.env$nEffvars[i] > 0) {
-#        for (j in 1:vs.env$nEffvars[i]) {
-#          statement <- paste(statement, vs.env$Varnames[vs.env$Effvar[i, j]])
-#          if (vs.env$EffIV[i, j] == 1) {
-#            statement <- paste(statement, "[I")
-#          }
-#          if (vs.env$EffMod[i, j] == 1) {
-#            statement <- paste(statement, "[M")
-#          }
-#          statement <- paste(statement, ",", vs.env$EffGroup[i, j], ",", vs.env$EffOrder[i, j], "]")
-#          if (vs.env$nEffMPaths[i, j] > 0) {
-#            for (k in 1:vs.env$nEffMPaths[i, j]) {
-#              statement <- paste0(statement, "(", vs.env$Varnames[vs.env$EffMPath[i, j, k]], ")")
-#            }
-#          }
-#        }
-#      }
-#      statement <- paste(statement, "\n")
-#      cat(statement)
-#    }
-#  }
-
   vs.env
 }
 
 
-# vs_add_effect_terms
-#
 # add additional effect terms from each main conditional effect term
 
 vs_add_effect_terms <- function(vs.env = NULL, matrices = NULL) {

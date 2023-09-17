@@ -113,12 +113,14 @@ vs_check_dualstage <- function(vs.env = NULL) {
 
 vs_dualstage_int <- function(dualstage = NULL, int = NULL) {
 
-  for (i in 1:nrow(int)) {
-    if (sum(c(dualstage$W, dualstage$X) %in% int[i, 3:4]) == 2) {
-      dualstage$WX <- paste0("int_", i)
-    } else {
-      if (sum(c(dualstage$Z, dualstage$M) %in% int[i, 3:4]) == 2) {
-        dualstage$ZM <- paste0("int_", i)
+  if (!is.null(int)) {
+    for (i in 1:nrow(int)) {
+      if (sum(c(dualstage$W, dualstage$X) %in% int[i, 3:4]) == 2) {
+        dualstage$WX <- paste0("int_", i)
+      } else {
+        if (sum(c(dualstage$Z, dualstage$M) %in% int[i, 3:4]) == 2) {
+          dualstage$ZM <- paste0("int_", i)
+        }
       }
     }
   }

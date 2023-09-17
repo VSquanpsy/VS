@@ -1,5 +1,3 @@
-# vs_check_model
-#
 # Check if the model specified is valid for VS
 
 vs_check_model <- function(vs.env = NULL) {
@@ -160,8 +158,6 @@ vs_check_model <- function(vs.env = NULL) {
 }
 
 
-# vs_path_info
-#
 # Find IVs and DVs in conceptual model
 # and assign moderation order for each each
 
@@ -189,7 +185,7 @@ vs_path_info <- function(vs.env = NULL) {
         all_assigned <- 0
       } else if (vs.env$Pathtype[i] == 1) {
         for (j in 1:vs.env$nPaths) {
-          if (vs.env$Pathfrom[j] == vs.env$Pathto[i] && vs.env$Pathorder[i] != vs.env$Pathorder[j]) {
+          if (vs.env$Pathfrom[j] == vs.env$Pathto[i] && vs.env$Pathorder[i] < vs.env$Pathorder[j]) {
             vs.env$Pathorder[i] <- vs.env$Pathorder[j]
             all_assigned <- 0
           }
@@ -197,6 +193,8 @@ vs_path_info <- function(vs.env = NULL) {
       }
     }
   }
+
+  cat("Path info got...\n")
 
   vs.env
 }

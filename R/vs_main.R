@@ -26,9 +26,10 @@
 #'   \code{"basic"} for basic bootstrap interval, \code{"perc"} for bootstrap percentile
 #'   interval (default), or \code{"bca.simple"} for adjusted bootstrap percentile (BCa)
 #'   interval with no correction for acceleration (only for bias).
-#' @param local.dep A logical value indicating whether the covariance between first order
-#'   interactions will be added. If value = \code{FALSE}, it is recommended to use
-#'   \code{"center"} or \code{"std"} as the scaling method of the data.
+#' @param local.dep A logical value indicating whether the error covariance and error-IV
+#'   covariance involving the two-way interactions will be added. If value = \code{FALSE},
+#'   it is recommended to use \code{"center"} or \code{"std"} as the scaling method of the
+#'   data.
 #'
 #' @return A list containing the information of the \code{VS} model.
 #'
@@ -83,24 +84,29 @@
 #' }
 #'
 #' @references
-#' Joyce Lok Yin Kwan & Wai Chan. (2018). Variable System: An alternative approach for the analysis of
+#' Kwan, J. L.-Y., & Chan, W. (2018). Variable System: An alternative approach for the analysis of
 #'   mediated moderation.  Psychological Methods, 23(2), 262-277.
 #'   \doi{https://doi.org/10.1037/met0000160}
+#' Kwan, J. L. Y., Chan, W., Ng, J. C. K., Choi, C. Y. T., & Kwan, K. T. (2023, May). Conditional Path
+#'   Analysis: The Analytical Framework of Mediated Moderation [Paper Presentation]. The 14th Asian
+#'   Conference on the Social Sciences, Tokyo, Japan.
+#'   {https://acss.iafor.org/presentation/submission70750/}
 #'
 #' @examples
 #' modelspec <- '
-#'  JOYREAD = HEDRES
-#'  HEDRES->JOYREAD = STIMREAD
-#'  STIMREAD = FEMALE
+#'  PV1MATH = MATHEFF
+#'  MATHEFF->PV1MATH = ESCS + HEDRES
+#'  HEDRES = ESCS
 #'  '
 #' effectspec <- '
-#'  IV1 = HEDRES
-#'  DV1 = JOYREAD
+#'  IV1 = MATHEFF
+#'  DV1 = PV1MATH
 #'  '
-#' VS_model <- VS(PISA2018HK, model = modelspec, effect = effectspec, scale = "center",
-#'                categorical = "FEMALE")
-#' VS_group <- VS(PISA2018HK, model = modelspec, effect = effectspec, group = "IMMIG",
-#'                scale = "center", categorical = "FEMALE")
+#' # VS model with centered data
+#' VS_model <- VS(PISA2012HK, model = modelspec, effect = effectspec, scale = "center")
+#' # VS multi-sample model with centered data
+#' VS_group <- VS(PISA2012HK, model = modelspec, effect = effectspec, group = "IMMIG",
+#'                scale = "center")
 #'
 #' @import lavaan
 #' @importFrom stats na.omit
@@ -236,16 +242,22 @@ VS <- function(data = NULL, model = NULL, effect = NULL, group = NULL, scale = "
     } else {
       datascale <- ifelse(scale == "center", "Centered by group", "Standardized by group")
     }
-#    catout <- NULL
-#    if (!is.null(categorial)) {
-#      cat("print\n")
-#      print(categorical)
-#      print(colnames(outdata$data))
-#      catvars <- categorical %in% colnames(outdata$Data)
-#      if (sum(catvars) > 0) {
-#        catout <- categorical[catvars]
-#      }
-#    }
+    catout <- NULL
+    if (!is.null(categorical)) {
+      catvars <- categorical %in% colnames(outdata$Data)
+      if (sum(catvars) > 0) {
+        catout <- categorical[catvars]
+      }
+    }
+    if (!is.null(group)) {
+      if(!is.null(catout)) {
+        if (!(group %in% catout)) {
+          catout <- c(catout, group)
+        }
+      } else {
+        catout <- c(catout, group)
+      }
+    }
 
     # Create the EQUATION, VARIANCE and COVARIANCE matrices for the working model
     vs.env <- vs_working_matrices(vs.env, local.dep)
@@ -299,7 +311,7 @@ VS <- function(data = NULL, model = NULL, effect = NULL, group = NULL, scale = "
                          "Input" = data,
                          "Conceptual" = conceptual,
                          "Output" = outdata$Data,
-                         "Categorical" = categorical,
+                         "Categorical" = catout,
                          "Int_labels" = outdata$Interactions,
                          "Scale" = datascale,
                          "Estimator" = estimator,

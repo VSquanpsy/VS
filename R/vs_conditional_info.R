@@ -1,5 +1,3 @@
-# vs_conditional_info
-#
 # Store the IV, DV, paths, sources, and conditional effects for the conditional table
 
 vs_conditional_info <- function(vs.env = NULL) {
@@ -99,7 +97,7 @@ vs_conditional_info <- function(vs.env = NULL) {
           }
         } else {
           nremarks <- nremarks + 1
-          remarks[nremarks] <- paste0("* No paths between IV = ", vs.env$Varnames[vs.env$UserSpecIV[a]], " and DV = ", vs.env$Varnames[vs.env$UserSpecDV[a]])
+          remarks[nremarks] <- paste0("* No direct paths between IV = ", vs.env$Varnames[vs.env$UserSpecIV[a]], " and DV = ", vs.env$Varnames[vs.env$UserSpecDV[a]])
         }
       }
 
@@ -134,7 +132,7 @@ vs_conditional_info <- function(vs.env = NULL) {
     } else {
       nremarks <- nremarks + 1
       if (vs.env$nUserSpecPaths > 0) {
-        remarks[nremarks] <- paste0("No paths between all user specified pairs of IV and DV\n  No conditional effects will be displayed")
+        remarks[nremarks] <- paste0("No direct paths between all user specified pairs of IV and DV\n  No conditional effects will be displayed")
       }
     }
   }

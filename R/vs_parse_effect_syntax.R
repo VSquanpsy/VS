@@ -1,5 +1,3 @@
-# vs_parse_effect_syntax
-#
 # Parse the effect syntax
 
 vs_parse_effect_syntax <- function(vs.env = NULL, data = NULL, effect.syntax = NULL) {
@@ -12,29 +10,33 @@ vs_parse_effect_syntax <- function(vs.env = NULL, data = NULL, effect.syntax = N
   # remove comments prior to split:
   # match from comment character to newline, but don't eliminate newline
   effect.syntax <- gsub("[#!].*(?=\n)", "", effect.syntax, perl = TRUE)
+
   # remove all whitespace prior to split
   effect.syntax <- gsub("[ \t]+", "", effect.syntax, perl = TRUE)
+
   # remove any occurrence of >= 2 consecutive newlines to eliminate blank statements
   effect.syntax <- gsub("\n{2,}", "\n", effect.syntax, perl = TRUE)
 
   # break up in lines
   effect <- unlist(strsplit(effect.syntax, "\n"))
+
   # remove the first syntax if it is an empty line
   if (effect[1] == "") {
     effect <- effect[-1]
   }
 
-  for (i in 1:length(effect)) {
-    equal.sign <- regexpr("=", effect[i])
+  for (a in 1:length(effect)) {
+    equal.sign <- regexpr("=", effect[a])
     if (equal.sign == -1) {
-      stop("VS ERROR: Invalid effect syntax: ", effect[i])
+      stop("VS ERROR: Invalid effect syntax: ", effect[a])
     } else {
-      lhs <- substr(effect[i], 1, equal.sign-1)
-      rhs <- substr(effect[i], equal.sign+1, nchar(effect[i]))
+      lhs <- substr(effect[a], 1, equal.sign-1)
+      rhs <- substr(effect[a], equal.sign+1, nchar(effect[a]))
+
       # check if lhs is empty
       # If yes, stop and return error
       if (nchar(lhs) <= 2L) {
-        stop("VS ERROR: Invalid effect syntax: ", effect[i])
+        stop("VS ERROR: Invalid effect syntax: ", effect[a])
       } else {
         if (toupper(substr(lhs, 1, 2)) == "DV") {
           found <- 0
@@ -52,7 +54,9 @@ vs_parse_effect_syntax <- function(vs.env = NULL, data = NULL, effect.syntax = N
                     }
                   }
                   if (foundV == 0) {
-                    stop("VS ERROR: Underfined variable in effect syntax: ", effect[i])
+                    stop("VS ERROR: Underfined variable in effect syntax: ", effect[a])
+                  } else if (vs.env$DV[vs.env$UserSpecDV[i]] == 0) {
+                    stop("VS ERROR: The effect DV specification must not be an IV or a mediator: ", effect[a])
                   }
                 } else {
                   stop("VS ERROR: Duplicated effect DV specification: ", lhs)
@@ -74,7 +78,9 @@ vs_parse_effect_syntax <- function(vs.env = NULL, data = NULL, effect.syntax = N
               }
             }
             if (foundV == 0) {
-              stop("VS ERROR: Underfined variable in effect syntax: ", effect[i])
+              stop("VS ERROR: Underfined variable in effect syntax: ", effect[a])
+            } else if (vs.env$DV[vs.env$UserSpecDV[vs.env$nUserSpecPaths]] == 0) {
+              stop("VS ERROR: The effect DV specification must not be an IV or a mediator: ", effect[a])
             }
           }
         } else if (toupper(substr(lhs, 1, 2)) == "IV") {
@@ -93,7 +99,9 @@ vs_parse_effect_syntax <- function(vs.env = NULL, data = NULL, effect.syntax = N
                     }
                   }
                   if (foundV == 0) {
-                    stop("VS ERROR: Underfined variable in effect syntax: ", effect[i])
+                    stop("VS ERROR: Underfined variable in effect syntax: ", effect[a])
+                  } else if (vs.env$IV[vs.env$UserSpecIV[i]] == 0) {
+                    stop("VS ERROR: The effect IV specification must not be a DV or a mediator: ", effect[a])
                   }
                 } else {
                   stop("VS ERROR: Duplicated effect IV specification: ", lhs)
@@ -115,11 +123,13 @@ vs_parse_effect_syntax <- function(vs.env = NULL, data = NULL, effect.syntax = N
               }
             }
             if (foundV == 0) {
-              stop("VS ERROR: Underfined variable in effect syntax: ", effect[i])
+              stop("VS ERROR: Underfined variable in effect syntax: ", effect[a])
+            } else if (vs.env$IV[vs.env$UserSpecIV[vs.env$nUserSpecPaths]] == 0) {
+              stop("VS ERROR: The effect IV specification must not be a DV or a mediator: ", effect[a])
             }
           }
         } else {
-          stop("VS ERROR: Invalid effect syntax: ", effect[i])
+          stop("VS ERROR: Invalid effect syntax: ", effect[a])
         }
       }
     }

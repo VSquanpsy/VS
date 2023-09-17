@@ -1,7 +1,4 @@
-# vs_transform
-#
 # Transform the conceptual model to the working model
-
 
 vs_transform <- function(vs.env = NULL) {
 
@@ -257,179 +254,10 @@ vs_transform <- function(vs.env = NULL) {
                       vs.env$Pathoutcoef <- arr
                     }
                   }
-
-# Conserve for covariates and covariates with mediators, not yet used
-                  # Check for any paths from an IV (Z) to Y
-#                  for (k in 1:vs.env$nPaths) {
-#                    if (vs.env$Pathtype[k] == 1 && vs.env$Pathto[k] == Y && vs.env$Pathorder[k] == order && vs.env$IV[vs.env$Pathfrom[k]] == 1) {
-#                      Z <- vs.env$Pathfrom[k]
-
-                      # Check if paths form Z to M and MX exist
-#                      Z_M_exist <- 0
-#                      Z_MX_exist <- 0
-#                      for (l in 1:vs.env$nPaths) {
-#                        if (vs.env$Pathtype[l] == 1 && vs.env$Pathfrom[l] == Z && vs.env$Pathto[l] == M) {
-#                          Z_M_exist <- 1
-#                        } else if (vs.env$Pathtype[l] == 1 && vs.env$Pathfrom[l] == Z && vs.env$Pathto[l] == MX) {
-#                          Z_MX_exist <- 1
-#                        }
-#                        if (Z_M_exist == 1 && Z_MX_exist == 1) {
-#                          break
-#                        }
-#                      }
-
-                      # If path from Z to M on plug does not exist, create it
-#                      if (Z_M_exist == 0) {
-#                        vs.env$nPaths <- vs.env$nPaths + 1
-#                        vs.env$Pathtype[vs.env$nPaths] <- 1
-#                        vs.env$Modpath[vs.env$nPaths] <- 0
-#                        vs.env$Pathfrom[vs.env$nPaths] <- Z
-#                        vs.env$Pathto[vs.env$nPaths] <- M
-#                        if (sameid == 1) {
-#                          vs.env$PathID[vs.env$nPaths] <- 0
-#                        } else {
-#                          vs.env$PathID[vs.env$nPaths] <- idcntr
-#                        }
-#                        vs.env$Pathorder[vs.env$nPaths] <- vs.env$Pathorder[i]
-#                        vs.env$Pathcoef[vs.env$nPaths] <- 0
-#                        arr <- array(0, c(vs.env$nPaths, vs.env$new_N, vs.env$new_N))
-#                        arr[-vs.env$nPaths, , ] <- vs.env$Pathoutcoef
-#                        vs.env$Pathoutcoef <- arr
-#                      }
-
-                      # If path from Z to MX on plug does not exist, create it
-#                      if (Z_MX_exist == 0) {
-#                        vs.env$nPaths <- vs.env$nPaths + 1
-#                        vs.env$Pathtype[vs.env$nPaths] <- 1
-#                        vs.env$Modpath[vs.env$nPaths] <- 0
-#                        vs.env$Pathfrom[vs.env$nPaths] <- Z
-#                        vs.env$Pathto[vs.env$nPaths] <- MX
-#                        if (sameid == 1) {
-#                          vs.env$PathID[vs.env$nPaths] <- 0
-#                        } else {
-#                          vs.env$PathID[vs.env$nPaths] <- idcntr
-#                        }
-#                        vs.env$Pathorder[vs.env$nPaths] <- vs.env$Pathorder[i]
-#                        vs.env$Pathcoef[vs.env$nPaths] <- 0
-#                        arr <- array(0, c(vs.env$nPaths, vs.env$new_N, vs.env$new_N))
-#                        arr[-vs.env$nPaths, , ] <- vs.env$Pathoutcoef
-#                        vs.env$Pathoutcoef <- arr
-#                      }
-#                    }
-#                  }
                 }
               }
             }
           }
-
-          # Check if there are mediators (M') from any IV covariates to Y
-#          if (vs.env$IV[vs.env$Pathfrom[i]] == 1) {
-#            nIV <- 0
-#            nMed <- 0
-#            traceIV <- NULL
-#            traceMed <- NULL
-#            trace <- Y
-#            tracetype <- type
-#            all_traced <- 0
-#            tracing <- 0
-#            while (all_traced == 0) {
-#              all_traced <- 1
-#              for (j in 1:vs.env$nPaths) {
-#                if (vs.env$Pathtype[j] == tracetype && vs.env$Pathorder[j] == order && vs.env$Pathto[j] == trace) {
-#                  cat(vs.env$Varnames[vs.env$Pathfrom[j]], "\n")
-#                  if (vs.env$IV[vs.env$Pathfrom[j]] == 1) {
-#                    if (vs.env$Pathfrom[j] != X && !(vs.env$Pathfrom[j] %in% traceIV)) {
-#                      nIV <- nIV + 1
-#                      traceIV[nIV] <- vs.env$Pathfrom[j]
-#                    }
-#                  } else {
-#                    if (!(vs.env$Pathfrom[j] %in% traceMed)) {
-#                      nMed <- nMed + 1
-#                      traceMed[nMed] <- vs.env$Pathfrom[j]
-#                    }
-#                  }
-#                }
-#              }
-#              if (tracing < nMed) {
-#                all_traced <- 0
-#                tracing <- tracing + 1
-#                trace <- traceMed[tracing]
-#                tracetype <- 1
-#              }
-#            }
-
-#            if (nIV > 0 && nMed > 0) {
-#              for (j in 1:nIV) {
-#                for (k in 1:nMed) {
-#                  foundx <- 0
-#                  foundz <- 0
-#                  for (l in 1:vs.env$nPaths) {
-#                    if (vs.env$Pathtype[l] == 1 && vs.env$Pathorder[l] == order && vs.env$Pathfrom[l] == traceIV[j] && vs.env$Pathto[l] == traceMed[k]) {
-#                      foundz <- 1
-#                    }
-#                    if (vs.env$Pathtype[l] == 1 && vs.env$Pathorder[l] == order && vs.env$Pathfrom[l] == X && vs.env$Pathto[l] == traceMed[k]) {
-#                      foundx <- 1
-#                    }
-#                    if (foundx == 1 && foundz == 1) {
-
-                      # Check if paths form W to M' and from WX to M' exist
-#                      W_M_exist <- 0
-#                      WX_M_exist <- 0
-#                      for (m in 1:vs.env$nPaths) {
-#                        if (vs.env$Pathtype[m] == 1 && vs.env$Pathfrom[m] == vs.env$Pathfrom[i] && vs.env$Pathto[m] == traceMed[k]) {
-#                          W_M_exist <- 1
-#                        } else if (vs.env$Pathtype[m] == 1 && vs.env$Pathfrom[m] == int && vs.env$Pathto[m] == traceMed[k]) {
-#                          WX_M_exist <- 1
-#                        }
-#                        if (W_M_exist == 1 && WX_M_exist == 1) {
-#                          break
-#                        }
-#                      }
-
-                      # If path from W to M' does not exist, create it
-#                      if (W_M_exist == 0) {
-#                        vs.env$nPaths <- vs.env$nPaths + 1
-#                        vs.env$Pathtype[vs.env$nPaths] <- 1
-#                        vs.env$Modpath[vs.env$nPaths] <- 0
-#                        vs.env$Pathfrom[vs.env$nPaths] <- vs.env$Pathfrom[i]
-#                        vs.env$Pathto[vs.env$nPaths] <- traceMed[k]
-#                        if (sameid == 1) {
-#                          vs.env$PathID[vs.env$nPaths] <- 0
-#                        } else {
-#                          vs.env$PathID[vs.env$nPaths] <- idcntr
-#                        }
-#                        vs.env$Pathorder[vs.env$nPaths] <- order
-#                        vs.env$Pathcoef[vs.env$nPaths] <- 0
-#                        arr <- array(0, c(vs.env$nPaths, vs.env$new_N, vs.env$new_N))
-#                        arr[-vs.env$nPaths, , ] <- vs.env$Pathoutcoef
-#                        vs.env$Pathoutcoef <- arr
-#                      }
-
-                      # If path from WX to M' on plug does not exist, create it
-#                      if (WX_M_exist == 0) {
-#                        vs.env$nPaths <- vs.env$nPaths + 1
-#                        vs.env$Pathtype[vs.env$nPaths] <- 1
-#                        vs.env$Modpath[vs.env$nPaths] <- 0
-#                        vs.env$Pathfrom[vs.env$nPaths] <- int
-#                        vs.env$Pathto[vs.env$nPaths] <- traceMed[k]
-#                        if (sameid == 1) {
-#                          vs.env$PathID[vs.env$nPaths] <- 0
-#                        } else {
-#                          vs.env$PathID[vs.env$nPaths] <- idcntr
-#                        }
-#                        vs.env$Pathorder[vs.env$nPaths] <- order
-#                        vs.env$Pathcoef[vs.env$nPaths] <- 0
-#                        arr <- array(0, c(vs.env$nPaths, vs.env$new_N, vs.env$new_N))
-#                        arr[-vs.env$nPaths, , ] <- vs.env$Pathoutcoef
-#                        vs.env$Pathoutcoef <- arr
-#                      }
-#                      break
-#                    }
-#                  }
-#                }
-#              }
-#            }
-#          }
         }
 
         # Store the checked MEMO mediators
@@ -448,8 +276,6 @@ vs_transform <- function(vs.env = NULL) {
 }
 
 
-# vs_create_interactions
-#
 # create interaction and interaction path of a specific moderation path for working model
 # Return the interaction used in this path
 
@@ -730,8 +556,6 @@ vs_create_interactions <- function(vs.env = NULL, path = NULL, var = NULL, outco
 }
 
 
-# vs_working_data
-#
 # Generate output data for working model
 # Center the data if requested and create the interaction terms (if any)
 # Variables are rearranged in the order of endogenous variables followed by exogenous variables
@@ -786,8 +610,6 @@ vs_working_data <- function(vs.env = NULL, data = NULL, scale = "raw", categoric
     }
   }
 
-#  print(colnames(new_data))
-
   # Create interactions
   int_desc <- NULL
   if (vs.env$nints > 0) {
@@ -827,8 +649,6 @@ vs_working_data <- function(vs.env = NULL, data = NULL, scale = "raw", categoric
 }
 
 
-# vs_working_matrices
-#
 # Generate EQUATION, VARIANCE and COVARIANCE matrices for working model
 
 vs_working_matrices <- function(vs.env = NULL, local.dep = TRUE) {
@@ -842,6 +662,8 @@ vs_working_matrices <- function(vs.env = NULL, local.dep = TRUE) {
   exovars <- vs.env$Varnames[(vs.env$UseX == 1 & vs.env$UseY == 0)]
   rownames(Equation) <- endovars
   colnames(Equation) <- c(endovars, exovars)
+  rownames(Order) <- endovars
+  colnames(Order) <- c(endovars, exovars)
   rownames(Covariance) <- c(paste0("e(", endovars, ")"), exovars)
   colnames(Covariance) <- c(paste0("e(", endovars, ")"), exovars)
   Matchcoef <- array(0, c(vs.env$N, vs.env$N, vs.env$nPaths))

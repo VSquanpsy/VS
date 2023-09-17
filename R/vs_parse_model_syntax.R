@@ -1,5 +1,3 @@
-# vs_parse_model_syntax
-#
 # Parse the model syntax into separated paths
 
 vs_parse_model_syntax <- function(vs.env = NULL, data = NULL, model.syntax = NULL) {

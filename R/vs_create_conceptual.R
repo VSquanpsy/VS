@@ -1,5 +1,3 @@
-# vs_conceptual_model
-#
 # Create the conceptual model matrix
 
 vs_create_conceptual <- function(vs.env = NULL, data = NULL) {

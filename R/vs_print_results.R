@@ -8,16 +8,15 @@
 #'
 #' @examples
 #' modelspec <- '
-#'  JOYREAD = HEDRES
-#'  HEDRES->JOYREAD = STIMREAD
-#'  STIMREAD = FEMALE
+#'  PV1MATH = MATHEFF
+#'  MATHEFF->PV1MATH = ESCS + HEDRES
+#'  HEDRES = ESCS
 #'  '
 #' effectspec <- '
-#'  IV1 = HEDRES
-#'  DV1 = JOYREAD
+#'  IV1 = MATHEFF
+#'  DV1 = PV1MATH
 #'  '
-#' VS_model <- VS(PISA2018HK, model = modelspec, effect = effectspec, scale = "center",
-#'                categorical = "FEMALE")
+#' VS_model <- VS(PISA2012HK, model = modelspec, effect = effectspec, scale = "center")
 #'
 #' VS_input_summary(VS_model)
 #'
@@ -52,16 +51,15 @@ VS_input_summary <- function(output = NULL) {
 #'
 #' @examples
 #' modelspec <- '
-#'  JOYREAD = HEDRES
-#'  HEDRES->JOYREAD = STIMREAD
-#'  STIMREAD = FEMALE
+#'  PV1MATH = MATHEFF
+#'  MATHEFF->PV1MATH = ESCS + HEDRES
+#'  HEDRES = ESCS
 #'  '
 #' effectspec <- '
-#'  IV1 = HEDRES
-#'  DV1 = JOYREAD
+#'  IV1 = MATHEFF
+#'  DV1 = PV1MATH
 #'  '
-#' VS_model <- VS(PISA2018HK, model = modelspec, effect = effectspec, scale = "center",
-#'                categorical = "FEMALE")
+#' VS_model <- VS(PISA2012HK, model = modelspec, effect = effectspec, scale = "center")
 #'
 #' VS_printConceptual(VS_model)
 #'
@@ -119,16 +117,15 @@ VS_printConceptual <- function(output = NULL) {
 #'
 #' @examples
 #' modelspec <- '
-#'  JOYREAD = HEDRES
-#'  HEDRES->JOYREAD = STIMREAD
-#'  STIMREAD = FEMALE
+#'  PV1MATH = MATHEFF
+#'  MATHEFF->PV1MATH = ESCS + HEDRES
+#'  HEDRES = ESCS
 #'  '
 #' effectspec <- '
-#'  IV1 = HEDRES
-#'  DV1 = JOYREAD
+#'  IV1 = MATHEFF
+#'  DV1 = PV1MATH
 #'  '
-#' VS_model <- VS(PISA2018HK, model = modelspec, effect = effectspec, scale = "center",
-#'                categorical = "FEMALE")
+#' VS_model <- VS(PISA2012HK, model = modelspec, effect = effectspec, scale = "center")
 #'
 #' VS_output_summary(VS_model)
 #'
@@ -198,16 +195,15 @@ VS_output_summary <- function(output = NULL) {
 #'
 #' @examples
 #' modelspec <- '
-#'  JOYREAD = HEDRES
-#'  HEDRES->JOYREAD = STIMREAD
-#'  STIMREAD = FEMALE
+#'  PV1MATH = MATHEFF
+#'  MATHEFF->PV1MATH = ESCS + HEDRES
+#'  HEDRES = ESCS
 #'  '
 #' effectspec <- '
-#'  IV1 = HEDRES
-#'  DV1 = JOYREAD
+#'  IV1 = MATHEFF
+#'  DV1 = PV1MATH
 #'  '
-#' VS_model <- VS(PISA2018HK, model = modelspec, effect = effectspec, scale = "center",
-#'                categorical = "FEMALE")
+#' VS_model <- VS(PISA2012HK, model = modelspec, effect = effectspec, scale = "center")
 #'
 #' VS_printInt(VS_model)
 #'
@@ -239,18 +235,20 @@ VS_printInt <- function(output = NULL) {
 #'
 #' @examples
 #' modelspec <- '
-#'  JOYREAD = HEDRES
-#'  HEDRES->JOYREAD = STIMREAD
-#'  STIMREAD = FEMALE
+#'  PV1MATH = MATHEFF
+#'  MATHEFF->PV1MATH = ESCS + HEDRES
+#'  HEDRES = ESCS
 #'  '
 #' effectspec <- '
-#'  IV1 = HEDRES
-#'  DV1 = JOYREAD
+#'  IV1 = MATHEFF
+#'  DV1 = PV1MATH
 #'  '
-#' VS_model <- VS(PISA2018HK, model = modelspec, effect = effectspec, scale = "center",
-#'                categorical = "FEMALE")
-#' VS_group <- VS(PISA2018HK, model = modelspec, effect = effectspec, group = "IMMIG",
-#'                scale = "center", categorical = "FEMALE")
+#' # VS model with centered data
+#' VS_model <- VS(PISA2012HK, model = modelspec, effect = effectspec, scale = "center")
+#' # VS multi-sample model with centered data
+#' VS_group <- VS(PISA2012HK, model = modelspec, effect = effectspec, group = "IMMIG",
+#'                scale = "center")
+#' # VS multi-sample model constrainted by group with centered data
 #' VS_group_equal <- VS_groupEqual(VS_group, effect.equal = 2)
 #'
 #' # print the covariance matrix for a VS model
@@ -352,18 +350,20 @@ VS_printCov <- function(output = NULL, groupid = "printall") {
 #'
 #' @examples
 #' modelspec <- '
-#'  JOYREAD = HEDRES
-#'  HEDRES->JOYREAD = STIMREAD
-#'  STIMREAD = FEMALE
+#'  PV1MATH = MATHEFF
+#'  MATHEFF->PV1MATH = ESCS + HEDRES
+#'  HEDRES = ESCS
 #'  '
 #' effectspec <- '
-#'  IV1 = HEDRES
-#'  DV1 = JOYREAD
+#'  IV1 = MATHEFF
+#'  DV1 = PV1MATH
 #'  '
-#' VS_model <- VS(PISA2018HK, model = modelspec, effect = effectspec, scale = "center",
-#'                categorical = "FEMALE")
-#' VS_group <- VS(PISA2018HK, model = modelspec, effect = effectspec, group = "IMMIG",
-#'                scale = "center", categorical = "FEMALE")
+#' # VS model with centered data
+#' VS_model <- VS(PISA2012HK, model = modelspec, effect = effectspec, scale = "center")
+#' # VS multi-sample model with centered data
+#' VS_group <- VS(PISA2012HK, model = modelspec, effect = effectspec, group = "IMMIG",
+#'                scale = "center")
+#' # VS multi-sample model constrainted by group with centered data
 #' VS_group_equal <- VS_groupEqual(VS_group, effect.equal = 2)
 #'
 #' # print the correlation matrix for a VS model
@@ -465,18 +465,20 @@ VS_printCor <- function(output = NULL, groupid = "printall") {
 #'
 #' @examples
 #' modelspec <- '
-#'  JOYREAD = HEDRES
-#'  HEDRES->JOYREAD = STIMREAD
-#'  STIMREAD = FEMALE
+#'  PV1MATH = MATHEFF
+#'  MATHEFF->PV1MATH = ESCS + HEDRES
+#'  HEDRES = ESCS
 #'  '
 #' effectspec <- '
-#'  IV1 = HEDRES
-#'  DV1 = JOYREAD
+#'  IV1 = MATHEFF
+#'  DV1 = PV1MATH
 #'  '
-#' VS_model <- VS(PISA2018HK, model = modelspec, effect = effectspec, scale = "center",
-#'                categorical = "FEMALE")
-#' VS_group <- VS(PISA2018HK, model = modelspec, effect = effectspec, group = "IMMIG",
-#'                scale = "center", categorical = "FEMALE")
+#' # VS model with centered data
+#' VS_model <- VS(PISA2012HK, model = modelspec, effect = effectspec, scale = "center")
+#' # VS multi-sample model with centered data
+#' VS_group <- VS(PISA2012HK, model = modelspec, effect = effectspec, group = "IMMIG",
+#'                scale = "center")
+#' # VS multi-sample model constrainted by group with centered data
 #' VS_group_equal <- VS_groupEqual(VS_group, effect.equal = 2)
 #'
 #' # print the mean vector for a VS model
@@ -564,16 +566,15 @@ VS_printMean <- function(output = NULL, groupid = "printall") {
 #'
 #' @examples
 #' modelspec <- '
-#'  JOYREAD = HEDRES
-#'  HEDRES->JOYREAD = STIMREAD
-#'  STIMREAD = FEMALE
+#'  PV1MATH = MATHEFF
+#'  MATHEFF->PV1MATH = ESCS + HEDRES
+#'  HEDRES = ESCS
 #'  '
 #' effectspec <- '
-#'  IV1 = HEDRES
-#'  DV1 = JOYREAD
+#'  IV1 = MATHEFF
+#'  DV1 = PV1MATH
 #'  '
-#' VS_model <- VS(PISA2018HK, model = modelspec, effect = effectspec, scale = "center",
-#'                categorical = "FEMALE")
+#' VS_model <- VS(PISA2012HK, model = modelspec, effect = effectspec, scale = "center")
 #'
 #' VS_printWorking(VS_model)
 #'
@@ -684,18 +685,20 @@ VS_printWorking <- function(output = NULL) {
 #'
 #' @examples
 #' modelspec <- '
-#'  JOYREAD = HEDRES
-#'  HEDRES->JOYREAD = STIMREAD
-#'  STIMREAD = FEMALE
+#'  PV1MATH = MATHEFF
+#'  MATHEFF->PV1MATH = ESCS + HEDRES
+#'  HEDRES = ESCS
 #'  '
 #' effectspec <- '
-#'  IV1 = HEDRES
-#'  DV1 = JOYREAD
+#'  IV1 = MATHEFF
+#'  DV1 = PV1MATH
 #'  '
-#' VS_model <- VS(PISA2018HK, model = modelspec, effect = effectspec, scale = "center",
-#'                categorical = "FEMALE")
-#' VS_group <- VS(PISA2018HK, model = modelspec, effect = effectspec, group = "IMMIG",
-#'                scale = "center", categorical = "FEMALE")
+#' # VS model with centered data
+#' VS_model <- VS(PISA2012HK, model = modelspec, effect = effectspec, scale = "center")
+#' # VS multi-sample model with centered data
+#' VS_group <- VS(PISA2012HK, model = modelspec, effect = effectspec, group = "IMMIG",
+#'                scale = "center")
+#' # VS multi-sample model constrainted by group with centered data
 #' VS_group_equal <- VS_groupEqual(VS_group, effect.equal = 2)
 #'
 #' # print the conditional effect table for a VS model
@@ -723,25 +726,25 @@ VS_printEffects <- function(output = NULL, groupid = "printall") {
         cat(paste0("\n  GROUP ", g, ": ", output$Group, " = ", output$GroupID[g], "\n"))
         for (i in 1:nrow(table)) {
           if (i == 1) {
-            cat("\n", " ", vs_align_center(table[i, 1], 92), "\n")
-            cat("  Path:", table[i, 2], "\n")
+            cat("\n", " ", vs_align_center(table[i, 1], 92))
+            cat("\n", " Path:", table[i, 2], "\n")
             cat("  Source:", table[i, 3], "\n")
             cat("  --------------------------------------------------------------------------------------------------\n")
-            cat("         Conditional Effect         Est.       S.E.    Z-value         p           95% C.I.         \n")
+            cat("   ap    Conditional Effect         Est.       S.E.    Z-value         p           95% C.I.         \n")
             cat("  --------------------------------------------------------------------------------------------------\n")
           } else {
             if (table[i, 1] != table[i - 1, 1]) {
               cat("\n", " ", vs_align_center(table[i, 1], 92), "\n")
             }
             if (table[i, 2] != table[i - 1, 2]) {
-              cat("  Path:", table[i, 2], "\n")
+              cat("\n", " Path:", table[i, 2], "\n")
             }
-            if (table[i, 3] != table[i - 1, 3]) {
+            if (table[i, 2] != table[i - 1, 2] || table[i, 3] != table[i - 1, 3]) {
               cat("  Source:", table[i, 3], "\n")
             }
             if (table[i, 1] != table[i - 1, 1] || table[i, 2] != table[i - 1, 2] || table[i, 3] != table[i - 1, 3]) {
               cat("  --------------------------------------------------------------------------------------------------\n")
-              cat("         Conditional Effect         Est.       S.E.    Z-value         p           95% C.I.         \n")
+              cat("   ap    Conditional Effect         Est.       S.E.    Z-value         p           95% C.I.         \n")
               cat("  --------------------------------------------------------------------------------------------------\n")
             }
           }
@@ -757,7 +760,7 @@ VS_printEffects <- function(output = NULL, groupid = "printall") {
           cat("  --------------------------------------------------------------------------------------------------\n")
           if (ncol(table) == 11) {
             if (!is.na(table[i, 11])) {
-              cat("  * I_wz = ", vs_change_digits(as.numeric(table[i, 11])), "\n")
+              cat("  I_wz = ", vs_change_digits(as.numeric(table[i, 11])), "\n")
             }
           }
         }
@@ -774,25 +777,25 @@ VS_printEffects <- function(output = NULL, groupid = "printall") {
       table <- conditional
       for (i in 1:nrow(table)) {
         if (i == 1) {
-          cat("\n", " ", vs_align_center(table[i, 1], 92), "\n")
-          cat("  Path:", table[i, 2], "\n")
+          cat("\n", " ", vs_align_center(table[i, 1], 92))
+          cat("\n", " Path:", table[i, 2], "\n")
           cat("  Source:", table[i, 3], "\n")
           cat("  --------------------------------------------------------------------------------------------------\n")
-          cat("         Conditional Effect         Est.       S.E.    Z-value         p           95% C.I.         \n")
+          cat("   ap    Conditional Effect         Est.       S.E.    Z-value         p           95% C.I.         \n")
           cat("  --------------------------------------------------------------------------------------------------\n")
         } else {
           if (table[i, 1] != table[i - 1, 1]) {
-            cat("\n", " ", vs_align_center(table[i, 1], 92), "\n")
+            cat("\n", " ", vs_align_center(table[i, 1], 92))
           }
           if (table[i, 2] != table[i - 1, 2]) {
-            cat("  Path:", table[i, 2], "\n")
+            cat("\n", " Path:", table[i, 2], "\n")
           }
-          if (table[i, 3] != table[i - 1, 3]) {
+          if (table[i, 2] != table[i - 1, 2] || table[i, 3] != table[i - 1, 3]) {
             cat("  Source:", table[i, 3], "\n")
           }
           if (table[i, 1] != table[i - 1, 1] || table[i, 2] != table[i - 1, 2] || table[i, 3] != table[i - 1, 3]) {
             cat("  --------------------------------------------------------------------------------------------------\n")
-            cat("         Conditional Effect         Est.       S.E.    Z-value         p           95% C.I.         \n")
+            cat("   ap    Conditional Effect         Est.       S.E.    Z-value         p           95% C.I.         \n")
             cat("  --------------------------------------------------------------------------------------------------\n")
           }
         }
@@ -808,7 +811,7 @@ VS_printEffects <- function(output = NULL, groupid = "printall") {
         cat("  --------------------------------------------------------------------------------------------------\n")
         if (ncol(table) == 11) {
           if (!is.na(table[i, 11])) {
-            cat("  * I_wz = ", vs_change_digits(as.numeric(table[i, 11])), "\n")
+            cat("  I_wz = ", vs_change_digits(as.numeric(table[i, 11])), "\n")
           }
         }
       }
@@ -818,6 +821,9 @@ VS_printEffects <- function(output = NULL, groupid = "printall") {
     }
   } else if (is.null(output$CondRemarks)) {
     cat("\n  No EFFECT specification\n  No conditional effects will be displayed\n")
+  } else {
+    cat("\n")
+    VS_printCondPaths(output)
   }
 }
 
@@ -832,16 +838,15 @@ VS_printEffects <- function(output = NULL, groupid = "printall") {
 #'
 #' @examples
 #' modelspec <- '
-#'  JOYREAD = HEDRES
-#'  HEDRES->JOYREAD = STIMREAD
-#'  STIMREAD = FEMALE
+#'  PV1MATH = MATHEFF
+#'  MATHEFF->PV1MATH = ESCS + HEDRES
+#'  HEDRES = ESCS
 #'  '
 #' effectspec <- '
-#'  IV1 = HEDRES
-#'  DV1 = JOYREAD
+#'  IV1 = MATHEFF
+#'  DV1 = PV1MATH
 #'  '
-#' VS_model <- VS(PISA2018HK, model = modelspec, effect = effectspec, scale = "center",
-#'                categorical = "FEMALE")
+#' VS_model <- VS(PISA2012HK, model = modelspec, effect = effectspec, scale = "center")
 #'
 #' VS_printCondPaths(VS_model)
 #'
@@ -875,24 +880,23 @@ VS_printCondPaths <- function(output = NULL) {
 #'
 #' @examples
 #' modelspec <- '
-#'  JOYREAD = HEDRES
-#'  HEDRES->JOYREAD = STIMREAD
-#'  STIMREAD = FEMALE
+#'  PV1MATH = MATHEFF
+#'  MATHEFF->PV1MATH = ESCS + HEDRES
+#'  HEDRES = ESCS
 #'  '
 #' effectspec <- '
-#'  IV1 = HEDRES
-#'  DV1 = JOYREAD
+#'  IV1 = MATHEFF
+#'  DV1 = PV1MATH
 #'  '
-#' VS_model <- VS(PISA2018HK, model = modelspec, effect = effectspec, scale = "center",
-#'                categorical = "FEMALE")
-#' VS_boot <- VS(PISA2018HK, model = modelspec, effect = effectspec, scale = "center",
-#'                categorical = "FEMALE", bootstrap = 100, boot.ci.type = "norm")
+#' # VS model with centered data with first order normal approximation bootstrapping C.I.
+#' VS_boot <- VS(PISA2012HK, model = modelspec, effect = effectspec, scale = "center",
+#'               bootstrap = 100, boot.ci.type = "norm")
 #'
 #' # print the parameter estimates with model specified C.I.
-#' VS_printParameters(VS_model)
+#' VS_printParameters(VS_boot)
 #'
 #' # print the parameter estimates bootstrap percentile interval
-#' VS_printParameters(VS_model, "perc")
+#' VS_printParameters(VS_boot, "perc")
 #'
 #' @import lavaan
 #'
@@ -952,16 +956,15 @@ VS_printParameters <- function(output = NULL, boot.ci.type = NULL) {
 #'
 #' @examples
 #' modelspec <- '
-#'  JOYREAD = HEDRES
-#'  HEDRES->JOYREAD = STIMREAD
-#'  STIMREAD = FEMALE
+#'  PV1MATH = MATHEFF
+#'  MATHEFF->PV1MATH = ESCS + HEDRES
+#'  HEDRES = ESCS
 #'  '
 #' effectspec <- '
-#'  IV1 = HEDRES
-#'  DV1 = JOYREAD
+#'  IV1 = MATHEFF
+#'  DV1 = PV1MATH
 #'  '
-#' VS_model <- VS(PISA2018HK, model = modelspec, effect = effectspec, scale = "center",
-#'                categorical = "FEMALE")
+#' VS_model <- VS(PISA2012HK, model = modelspec, effect = effectspec, scale = "center")
 #'
 #' VS_summary(VS_model)
 #'
@@ -1033,13 +1036,13 @@ VS_summary <- function(output = NULL) {
 
   # Print Lavaan model summary
   cat("LAVAAN MODEL SUMMARY\n\n")
-  lavaan::summary(output$Model, fit.measures = TRUE, rsquare = TRUE)
+  summary <- lavaan::summary(output$Model, fit.measures = TRUE, rsquare = TRUE)
+  print(summary)
   cat("\n")
 
   # Print parameter estimates
   VS_printParameters(output)
 }
-
 
 
 # vs_change_digits
