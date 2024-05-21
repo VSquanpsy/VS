@@ -588,7 +588,7 @@ VS_printWorking <- function(output = NULL) {
   cat("WORKING MODEL\n\n")
   cat("Model Specification (corresponding to Lavaan output)\n\n")
   if (output$Bootstrap > 0) {
-    cat("Bootstrap =", output$Bootstrap, "\n")
+    cat("Bootstrap =", output$Bootstrap, "\n\n")
   }
 
   # Print description for interactions created
@@ -729,9 +729,15 @@ VS_printEffects <- function(output = NULL, groupid = "printall") {
             cat("\n", " ", vs_align_center(table[i, 1], 92))
             cat("\n", " Path:", table[i, 2], "\n")
             cat("  Source:", table[i, 3], "\n")
-            cat("  --------------------------------------------------------------------------------------------------\n")
-            cat("   ap    Conditional Effect         Est.       S.E.    Z-value         p           95% C.I.         \n")
-            cat("  --------------------------------------------------------------------------------------------------\n")
+            if (output$Bootstrap > 0) {
+              cat("  --------------------------------------------------------------------------------------------------\n")
+              cat("   Eff   Conditional Effect         Est.       S.E.    Z-value         p      95% bootstrap C.I.    \n")
+              cat("  --------------------------------------------------------------------------------------------------\n")
+            } else {
+              cat("  --------------------------------------------------------------------------------------------------\n")
+              cat("   Eff   Conditional Effect         Est.       S.E.    Z-value         p           95% C.I.         \n")
+              cat("  --------------------------------------------------------------------------------------------------\n")
+            }
           } else {
             if (table[i, 1] != table[i - 1, 1]) {
               cat("\n", " ", vs_align_center(table[i, 1], 92), "\n")
@@ -743,9 +749,15 @@ VS_printEffects <- function(output = NULL, groupid = "printall") {
               cat("  Source:", table[i, 3], "\n")
             }
             if (table[i, 1] != table[i - 1, 1] || table[i, 2] != table[i - 1, 2] || table[i, 3] != table[i - 1, 3]) {
-              cat("  --------------------------------------------------------------------------------------------------\n")
-              cat("   ap    Conditional Effect         Est.       S.E.    Z-value         p           95% C.I.         \n")
-              cat("  --------------------------------------------------------------------------------------------------\n")
+              if (output$Bootstrap > 0) {
+                cat("  --------------------------------------------------------------------------------------------------\n")
+                cat("   Eff   Conditional Effect         Est.       S.E.    Z-value         p      95% bootstrap C.I.    \n")
+                cat("  --------------------------------------------------------------------------------------------------\n")
+              } else {
+                cat("  --------------------------------------------------------------------------------------------------\n")
+                cat("   Eff   Conditional Effect         Est.       S.E.    Z-value         p           95% C.I.         \n")
+                cat("  --------------------------------------------------------------------------------------------------\n")
+              }
             }
           }
           printrow <- paste0("   ", vs_align_center(rownames(table)[i], 3))
@@ -764,6 +776,17 @@ VS_printEffects <- function(output = NULL, groupid = "printall") {
             }
           }
         }
+        if (output$Bootstrap > 0) {
+          if (output$CItype == "norm") {
+            cat("  Bootstrap C.I. by first order normal approximation\n")
+          } else if (output$CItype == "basic") {
+            cat("  Bootstrap C.I. by basic bootstrap interval\n")
+          } else if (output$CItype == "perc") {
+            cat("  Bootstrap C.I. by bootstrap percentile interval\n")
+          } else {
+            cat("  Bootstrap C.I. by adjusted bootstrap percentile (BCa) interval with no correction for acceleration\n")
+          }
+        }
         if (!is.null(output$CondRemarks)) {
           for (i in 1:length(output$CondRemarks)) {
             cat(" ", output$CondRemarks[i], "\n")
@@ -780,9 +803,15 @@ VS_printEffects <- function(output = NULL, groupid = "printall") {
           cat("\n", " ", vs_align_center(table[i, 1], 92))
           cat("\n", " Path:", table[i, 2], "\n")
           cat("  Source:", table[i, 3], "\n")
-          cat("  --------------------------------------------------------------------------------------------------\n")
-          cat("   ap    Conditional Effect         Est.       S.E.    Z-value         p           95% C.I.         \n")
-          cat("  --------------------------------------------------------------------------------------------------\n")
+          if (output$Bootstrap > 0) {
+            cat("  --------------------------------------------------------------------------------------------------\n")
+            cat("   Eff   Conditional Effect         Est.       S.E.    Z-value         p      95% bootstrap C.I.    \n")
+            cat("  --------------------------------------------------------------------------------------------------\n")
+          } else {
+            cat("  --------------------------------------------------------------------------------------------------\n")
+            cat("   Eff   Conditional Effect         Est.       S.E.    Z-value         p           95% C.I.         \n")
+            cat("  --------------------------------------------------------------------------------------------------\n")
+          }
         } else {
           if (table[i, 1] != table[i - 1, 1]) {
             cat("\n", " ", vs_align_center(table[i, 1], 92))
@@ -794,9 +823,15 @@ VS_printEffects <- function(output = NULL, groupid = "printall") {
             cat("  Source:", table[i, 3], "\n")
           }
           if (table[i, 1] != table[i - 1, 1] || table[i, 2] != table[i - 1, 2] || table[i, 3] != table[i - 1, 3]) {
-            cat("  --------------------------------------------------------------------------------------------------\n")
-            cat("   ap    Conditional Effect         Est.       S.E.    Z-value         p           95% C.I.         \n")
-            cat("  --------------------------------------------------------------------------------------------------\n")
+            if (output$Bootstrap > 0) {
+              cat("  --------------------------------------------------------------------------------------------------\n")
+              cat("   Eff   Conditional Effect         Est.       S.E.    Z-value         p      95% bootstrap C.I.    \n")
+              cat("  --------------------------------------------------------------------------------------------------\n")
+            } else {
+              cat("  --------------------------------------------------------------------------------------------------\n")
+              cat("   Eff   Conditional Effect         Est.       S.E.    Z-value         p           95% C.I.         \n")
+              cat("  --------------------------------------------------------------------------------------------------\n")
+            }
           }
         }
         printrow <- paste0("   ", vs_align_center(rownames(table)[i], 3))
@@ -813,6 +848,17 @@ VS_printEffects <- function(output = NULL, groupid = "printall") {
           if (!is.na(table[i, 11])) {
             cat("  I_wz = ", vs_change_digits(as.numeric(table[i, 11])), "\n")
           }
+        }
+      }
+      if (output$Bootstrap > 0) {
+        if (output$CItype == "norm") {
+          cat("  Bootstrap C.I. by first order normal approximation\n")
+        } else if (output$CItype == "basic") {
+          cat("  Bootstrap C.I. by basic bootstrap interval\n")
+        } else if (output$CItype == "perc") {
+          cat("  Bootstrap C.I. by bootstrap percentile interval\n")
+        } else {
+          cat("  Bootstrap C.I. by adjusted bootstrap percentile (BCa) interval with no correction for acceleration\n")
         }
       }
       if (!is.null(output$CondRemarks)) {
@@ -922,14 +968,17 @@ VS_printParameters <- function(output = NULL, boot.ci.type = NULL) {
     } else {
       cat("  (C.I. by adjusted bootstrap percentile (BCa) interval with no correction for acceleration)\n")
     }
+    cat("  ---------------------------------------------------------------------------------\n")
+    cat("    VS label       Est.       S.E.    Z-value         p      95% bootstrap C.I.    \n")
+    cat("  ---------------------------------------------------------------------------------\n")
     par <- lavaan::parameterEstimates(output$Model, boot.ci.type = type)
   } else {
+    cat("  ---------------------------------------------------------------------------------\n")
+    cat("    VS label       Est.       S.E.    Z-value         p           95% C.I.         \n")
+    cat("  ---------------------------------------------------------------------------------\n")
     par <- lavaan::parameterEstimates(output$Model)
   }
   par <- par[c("label", "est", "se", "z", "pvalue", "ci.lower", "ci.upper")]
-  cat("  ---------------------------------------------------------------------------------\n")
-  cat("    VS label       Est.       S.E.    Z-value         p           95% C.I.         \n")
-  cat("  ---------------------------------------------------------------------------------\n")
   for (i in 1:nrow(par)) {
     printrow <- paste0("    ", vs_align_center(par[i, 1], 8))
     printrow <- paste0(printrow, " ", vs_change_digits(as.numeric(par[i, 2])))
@@ -976,7 +1025,10 @@ VS_printParameters <- function(output = NULL, boot.ci.type = NULL) {
 
 VS_summary <- function(output = NULL) {
 
-  cat("VS", output$Version, "\nBy W. Chan, J.L.-Y. Kwan, Y.-T. Choi, & J.C.-K. Ng\n\n")
+  cat("VS", output$Version, "\nBy W. Chan, J. L.-Y. Kwan, Y.-T. Choi, & J. C.-K. Ng\n",
+      " Chan, W., Kwan, J. L.-Y., Choi, Y.-T., & Ng, J. C.-K. (2024).\n",
+      " Variable System (VS). R package version", paste0(output$Version,".\n"),
+      " https://vsquanpsy.wixsite.com/home\n\n")
 
   # Print information of input data
   VS_input_summary(output)

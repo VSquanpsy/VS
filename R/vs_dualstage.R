@@ -85,9 +85,17 @@ vs_check_dualstage <- function(vs.env = NULL) {
               }
             }
           }
+        } else {
+          dualstageb <- FALSE
         }
+      } else {
+        dualstageb <- FALSE
       }
+    } else {
+      dualstageb <- FALSE
     }
+  } else {
+    dualstageb <- FALSE
   }
 
   if (dualstageb == TRUE) {

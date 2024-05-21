@@ -123,6 +123,7 @@ vs_parse_model_syntax <- function(vs.env = NULL, data = NULL, model.syntax = NUL
               vs.env$Pathcoef[vs.env$nPaths] <- vs.env$nPaths
               vs.env$Pathfrom[vs.env$nPaths] <- X
               vs.env$Pathto[vs.env$nPaths] <- Y
+              vs.env$PathX[vs.env$nPaths] <- 0
               if (vs.env$nPaths > 1) {
                 arr <- array(0, c(vs.env$nPaths, vs.env$N, vs.env$N))
                 arr[-vs.env$nPaths, , ] <- vs.env$Pathoutcoef
@@ -162,6 +163,7 @@ vs_parse_model_syntax <- function(vs.env = NULL, data = NULL, model.syntax = NUL
               vs.env$Pathcoef[vs.env$nPaths] <- vs.env$nPaths
               vs.env$Pathfrom[vs.env$nPaths] <- X
               vs.env$Pathto[vs.env$nPaths] <- XY
+              vs.env$PathX[vs.env$nPaths] <- 0
               if (vs.env$nPaths > 1) {
                 arr <- array(0, c(vs.env$nPaths, vs.env$N, vs.env$N))
                 arr[-vs.env$nPaths, , ] <- vs.env$Pathoutcoef

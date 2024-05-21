@@ -121,7 +121,7 @@ VS <- function(data = NULL, model = NULL, effect = NULL, group = NULL, scale = "
                categorical = NULL, estimator = "ML", bootstrap = 0, boot.ci.type = "perc",
                local.dep = TRUE) {
 
-  VS_version <- "0.0.1"
+  VS_version <- paste(packageVersion("VS"))
 
   vs_output_list <- NULL
   vs.env <- NULL
@@ -158,7 +158,7 @@ VS <- function(data = NULL, model = NULL, effect = NULL, group = NULL, scale = "
   }
 
   # Check if number of bootstrap < 100 or > 10000 and the boot.ci.type argument is valid
-  bootstrap_ci = NULL
+  bootstrap_ci <- NULL
   if (bootstrap > 0) {
     if (bootstrap < 100 || bootstrap > 10000) {
       stop("VS ERROR: Number of bootstrap should be between 100 and 10000")
@@ -167,6 +167,8 @@ VS <- function(data = NULL, model = NULL, effect = NULL, group = NULL, scale = "
     } else {
       bootstrap_ci <- boot.ci.type
     }
+  } else {
+    bootstrap_ci <- boot.ci.type
   }
 
   # Check if empty dataset and length of variable names > 8
@@ -336,7 +338,7 @@ VS <- function(data = NULL, model = NULL, effect = NULL, group = NULL, scale = "
 }
 
 
-# Initialize the VS environment variables
+# Initialize the VS in-function variables
 
 vs_initialize <- function(data) {
 
@@ -371,6 +373,7 @@ vs_initialize <- function(data) {
   vs.env$Pathadded <- NULL
   vs.env$Pathname <- NULL
   vs.env$PathID <- NULL
+  vs.env$PathX <- NULL
   vs.env$UseX <- rep(0, vs.env$N)
   vs.env$UseY <- rep(0, vs.env$N)
   vs.env$Usevar <- rep(0, vs.env$N)

@@ -5,6 +5,7 @@ vs_transform <- function(vs.env = NULL) {
   checkpath <- NULL
   checked <- NULL
   MEMO <- NULL
+  MEMOx <- NULL
   all_transformed <- 0
   idcntr <- 0
   while (all_transformed == 0) {
@@ -116,20 +117,28 @@ vs_transform <- function(vs.env = NULL) {
             }
 
             # Check if the predictor on MeMo plug is the target moderator (W)
-            # if yes, create paths from WX, and X to M
+            # if yes, create paths from WX and X to M
             for (j in 1:ntrans) {
               is_W <- 1
-              for (k in 1:ntrans) {
-                if (j != k && vs.env$Pathto[transform_list[k]] == vs.env$Pathfrom[transform_list[j]]) {
-                  is_W <- 0
-                  break
+              if (vs.env$Pathorder[transform_list[j]] > vs.env$Pathorder[i] || (vs.env$Pathorder[transform_list[j]] == vs.env$Pathorder[i] && (vs.env$PathX[transform_list[j]] == 0 || vs.env$PathX[transform_list[j]] == X))){
+                for (k in 1:ntrans) {
+                  if (j != k && vs.env$Pathto[transform_list[k]] == vs.env$Pathfrom[transform_list[j]]) {
+                    is_W <- 0
+                    break
+                  }
                 }
+              } else {
+                is_W <- 0
               }
               if (is_W == 1) {
                 W <- vs.env$Pathfrom[transform_list[j]]
                 M <- vs.env$Pathto[transform_list[j]]
                 W_M_order <- vs.env$Pathorder[transform_list[j]]
-                checked_M <- sum(MEMO == M)
+                if (sum(MEMOx == X) == 0) {
+                  checked_M <- 0
+                } else {
+                  checked_M <- sum(MEMO[which(MEMOx == X), ] == M)
+                }
                 if (checked_M == 0) {
                   M_list <- c(M_list, M)
                   WX <- int_list[j]
@@ -166,6 +175,7 @@ vs_transform <- function(vs.env = NULL) {
                     vs.env$Modpath[vs.env$nPaths] <- 0
                     vs.env$Pathfrom[vs.env$nPaths] <- WX
                     vs.env$Pathto[vs.env$nPaths] <- M
+                    vs.env$PathX[vs.env$nPaths] <- X
                     if (sameid == 1) {
                       vs.env$PathID[vs.env$nPaths] <- 0
                     } else {
@@ -185,6 +195,7 @@ vs_transform <- function(vs.env = NULL) {
                     vs.env$Modpath[vs.env$nPaths] <- 0
                     vs.env$Pathfrom[vs.env$nPaths] <- X
                     vs.env$Pathto[vs.env$nPaths] <- M
+                    vs.env$PathX[vs.env$nPaths] <- X
                     if (sameid == 1) {
                       vs.env$PathID[vs.env$nPaths] <- 0
                     } else {
@@ -216,13 +227,14 @@ vs_transform <- function(vs.env = NULL) {
                         break
                       }
                     }
-                    # If path from WX to M on plug does not exist, create it
+                    # If path from WX to M2 on plug does not exist, create it
                     if (WX_M2_exist == 0) {
                       vs.env$nPaths <- vs.env$nPaths + 1
                       vs.env$Pathtype[vs.env$nPaths] <- 1
                       vs.env$Modpath[vs.env$nPaths] <- 0
                       vs.env$Pathfrom[vs.env$nPaths] <- WX
                       vs.env$Pathto[vs.env$nPaths] <- M2
+                      vs.env$PathX[vs.env$nPaths] <- X
                       if (sameid == 1) {
                         vs.env$PathID[vs.env$nPaths] <- 0
                       } else {
@@ -235,13 +247,14 @@ vs_transform <- function(vs.env = NULL) {
                       vs.env$Pathoutcoef <- arr
                     }
 
-                    # If path from X to M on plug does not exist, create it
+                    # If path from X to M2 on plug does not exist, create it
                     if (X_M2_exist == 0) {
                       vs.env$nPaths <- vs.env$nPaths + 1
                       vs.env$Pathtype[vs.env$nPaths] <- 1
                       vs.env$Modpath[vs.env$nPaths] <- 0
                       vs.env$Pathfrom[vs.env$nPaths] <- X
                       vs.env$Pathto[vs.env$nPaths] <- M2
+                      vs.env$PathX[vs.env$nPaths] <- X
                       if (sameid == 1) {
                         vs.env$PathID[vs.env$nPaths] <- 0
                       } else {
@@ -258,10 +271,32 @@ vs_transform <- function(vs.env = NULL) {
               }
             }
           }
+          # Store the checked MEMO mediators
+          if (!is.null(M_list)) {
+            if (sum(MEMOx == X) == 0) {
+              MEMOx <- c(MEMOx, X)
+              if (is.null(MEMO)) {
+                MEMO <- matrix(0, 1, length(M_list))
+                MEMO[length(MEMOx), ] <- M_list
+              } else {
+                if (length(M_list) > ncol(MEMO)) {
+                  for (k in (ncol(MEMO)+1):length(M_list)) {
+                    MEMO <- cbind(MEMO, rep(0, nrow(MEMO)))
+                  }
+                }
+                MEMO <- rbind(MEMO, rep(0, ncol(MEMO)))
+                MEMO[length(MEMOx), 1:length(M_list)] <- M_list
+              }
+            } else {
+              if (length(M_list) > ncol(MEMO)) {
+                for (k in (ncol(MEMO)+1):length(M_list)) {
+                  MEMO <- cbind(MEMO, rep(0, nrow(MEMO)))
+                }
+              }
+              MEMO[which(MEMOx == X), 1:length(M_list)] <- M_list
+            }
+          }
         }
-
-        # Store the checked MEMO mediators
-        MEMO <- c(MEMO, M_list)
       }
     }
 
@@ -410,6 +445,7 @@ vs_create_interactions <- function(vs.env = NULL, path = NULL, var = NULL, outco
       vs.env$Modpath[vs.env$nPaths] <- 0
       vs.env$Pathfrom[vs.env$nPaths] <-intX
       vs.env$Pathto[vs.env$nPaths] <- intY
+      vs.env$PathX[vs.env$nPaths] <- var
       vs.env$PathID[vs.env$nPaths] <- id
       vs.env$Pathorder[vs.env$nPaths] <- vs.env$Pathorder[path]
       vs.env$UseY[intY] <- 1
@@ -419,6 +455,7 @@ vs_create_interactions <- function(vs.env = NULL, path = NULL, var = NULL, outco
       vs.env$Modpath[vs.env$nPaths] <- 0
       vs.env$Pathfrom[vs.env$nPaths] <- intX
       vs.env$Pathto[vs.env$nPaths] <- vs.env$Pathto[path]
+      vs.env$PathX[vs.env$nPaths] <- var
       vs.env$PathID[vs.env$nPaths] <- id
       vs.env$Pathorder[vs.env$nPaths] <- vs.env$Pathorder[path]
     }
@@ -469,6 +506,7 @@ vs_create_interactions <- function(vs.env = NULL, path = NULL, var = NULL, outco
       vs.env$Modpath[vs.env$nPaths] <- 0
       vs.env$Pathfrom[vs.env$nPaths] <- vs.env$nints + vs.env$N
       vs.env$Pathto[vs.env$nPaths] <- intY
+      vs.env$PathX[vs.env$nPaths] <- var
       vs.env$PathID[vs.env$nPaths] <- id
       vs.env$Pathorder[vs.env$nPaths] <- vs.env$Pathorder[path]
       vs.env$UseY[intY] <- 1
@@ -478,6 +516,7 @@ vs_create_interactions <- function(vs.env = NULL, path = NULL, var = NULL, outco
       vs.env$Pathtype[vs.env$nPaths] <- type
       vs.env$Pathfrom[vs.env$nPaths] <- vs.env$nints + vs.env$N
       vs.env$Pathto[vs.env$nPaths] <- vs.env$Pathto[path]
+      vs.env$PathX[vs.env$nPaths] <- var
       vs.env$PathID[vs.env$nPaths] <- id
       vs.env$Pathorder[vs.env$nPaths] <- vs.env$Pathorder[path]
     }
@@ -528,6 +567,7 @@ vs_create_interactions <- function(vs.env = NULL, path = NULL, var = NULL, outco
       vs.env$Modpath[vs.env$nPaths] <- 0
       vs.env$Pathfrom[vs.env$nPaths] <- var
       vs.env$Pathto[vs.env$nPaths] <- intY
+      vs.env$PathX[vs.env$nPaths] <- var
       vs.env$PathID[vs.env$nPaths] <- id
       vs.env$Pathorder[vs.env$nPaths] <- vs.env$Pathorder[path]
       vs.env$Pathcoef[vs.env$nPaths] <- 0
@@ -541,6 +581,7 @@ vs_create_interactions <- function(vs.env = NULL, path = NULL, var = NULL, outco
       vs.env$Modpath[vs.env$nPaths] <- 0
       vs.env$Pathfrom[vs.env$nPaths] <- vs.env$Pathfrom[path]
       vs.env$Pathto[vs.env$nPaths] <- intY
+      vs.env$PathX[vs.env$nPaths] <- var
       vs.env$PathID[vs.env$nPaths] <- id
       vs.env$Pathorder[vs.env$nPaths] <- vs.env$Pathorder[path]
       vs.env$Pathcoef[vs.env$nPaths] <- 0

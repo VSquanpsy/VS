@@ -70,3 +70,47 @@
 "FSdata"
 
 
+#' @name SampleData4A
+#'
+#' @title Sample data for Tutorial Chapter 4 sample output
+#'
+#' @description A dataset for a simple moderated mediation model
+#'
+#' @docType data
+#'
+#' @usage data(SampleData4A)
+#'
+#' @format
+#' A data frame with 100 rows and 4 columns:
+#' \describe{
+#'   \item{Y}{DV}
+#'   \item{X}{IV}
+#'   \item{M}{Mediator}
+#'   \item{W}{Moderator}
+#' }
+"SampleData4A"
+
+
+#' @name SampleData4B
+#'
+#' @title Sample data for Tutorial Chapter 4 another sample output
+#'
+#' @description A dataset for a second-order moderated mediation model
+#'
+#' @docType data
+#'
+#' @usage data(SampleData4B)
+#'
+#' @format
+#' A data frame with 4,670 rows and 4 columns:
+#' \describe{
+#'   \item{Y}{DV}
+#'   \item{M}{Mediator}
+#'   \item{X}{IV}
+#'   \item{W1}{Moderator 1}
+#'   \item{W2}{Moderator 2}
+#'   \item{W3}{Moderator 3}
+#'   \item{W4}{Moderator 4}
+#' }
+"SampleData4B"
+
