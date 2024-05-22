@@ -116,7 +116,7 @@ vs_create_model <- function(vs.env = NULL, equation = NULL, covariance = NULL) {
                   if (nap == 1) {
                     VSmodel <- paste0(VSmodel, "\n# additional parameters\n")
                   }
-                  VSmodel <- paste0(VSmodel, "  ap", nap, " := ", ap, "\n")
+                  VSmodel <- paste0(VSmodel, "  Eff", nap, " := ", ap, "\n")
                 }
                 if (length(TotalEff) > 1) {
                   nap <- nap + 1
@@ -129,12 +129,12 @@ vs_create_model <- function(vs.env = NULL, equation = NULL, covariance = NULL) {
                   APcoef <- arr
                   for (k in 1:length(TotalEff)) {
                     if (k == 1) {
-                      ap <- paste0("ap", TotalEff[k])
+                      ap <- paste0("Eff", TotalEff[k])
                     } else {
-                      ap <- paste0(ap, " + ap", TotalEff[k])
+                      ap <- paste0(ap, " + Eff", TotalEff[k])
                     }
                   }
-                  VSmodel <- paste0(VSmodel, "  ap", nap, " := ", ap, "\n")
+                  VSmodel <- paste0(VSmodel, "  Eff", nap, " := ", ap, "\n")
                 }
               }
             }
@@ -144,7 +144,7 @@ vs_create_model <- function(vs.env = NULL, equation = NULL, covariance = NULL) {
     }
   }
 
-  cat("Lavvan model syntax created...\n")
+  cat("Lavaan model syntax created...\n")
 
   AP <- list("Nterms" = APnterms, "Ncoefs" = APncoefs, "Coefs" = APcoef)
   Model <- list("Model_spec" = VSmodel, "AP" = AP)

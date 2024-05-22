@@ -319,7 +319,7 @@ VS_getEffects <- function(output = NULL, groupid = "printall", boot.ci.type = "p
           conditional <- table
           for (i in 1:nrow(conditional)) {
             groupnum <- which(output$GroupID == groupid)
-            ap <- paste0("ap", i, ".", groupnum)
+            ap <- paste0("Eff", i, ".", groupnum)
             conditional[i, 5:10] <- par[par["label"] == ap, 2:7]
             if (output$DualStage$Boolean == TRUE) {
               if (conditional[i, 2] == output$DualStage$Path && conditional[i, 4] != "None") {
@@ -334,7 +334,7 @@ VS_getEffects <- function(output = NULL, groupid = "printall", boot.ci.type = "p
         for (g in 1:output$N_groups) {
           conditional_g <- table
           for (i in 1:nrow(conditional_g)) {
-            ap <- paste0("ap", i, ".", g)
+            ap <- paste0("Eff", i, ".", g)
             conditional_g[i, 5:10] <- par[par["label"] == ap, 2:7]
             if (output$DualStage$Boolean == TRUE) {
               if (conditional_g[i, 2] == output$DualStage$Path && conditional_g[i, 4] != "None") {
@@ -355,7 +355,7 @@ VS_getEffects <- function(output = NULL, groupid = "printall", boot.ci.type = "p
     } else {
       conditional <- table
       for (i in 1:nrow(conditional)) {
-        ap <- paste0("ap", i)
+        ap <- paste0("Eff", i)
         conditional[i, 5:10] <- par[par["label"] == ap, 2:7]
         if (output$DualStage$Boolean == TRUE) {
           if (conditional[i, 2] == output$DualStage$Path && conditional[i, 4] != "None") {

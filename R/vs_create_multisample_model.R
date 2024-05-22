@@ -92,7 +92,7 @@ vs_create_multisample_model <- function(equation = NULL, covariance = NULL, ap =
   for (i in 1:ngroups) {
     VSmodel <- paste0(VSmodel, "\n# additional parameters for group ", i, "\n")
     for (j in 1:length(ap$Nterms)) {
-      apg <- paste0("  ap", j, ".", i, " := ")
+      apg <- paste0("  Eff", j, ".", i, " := ")
       if (sum(ap$Coef[j, , ]) > 0) {
         for (k in 1:ap$Nterms[j]) {
           if (k == 1) {
@@ -109,9 +109,9 @@ vs_create_multisample_model <- function(equation = NULL, covariance = NULL, ap =
       } else {
         for (k in 1:ap$Nterms[j]) {
           if (k == 1) {
-            apg <- paste0(apg, "ap", ap$Ncoefs[j, k], ".", i)
+            apg <- paste0(apg, "Eff", ap$Ncoefs[j, k], ".", i)
           } else {
-            apg <- paste0(apg," + ap", ap$Ncoefs[j, k], ".", i)
+            apg <- paste0(apg," + Eff", ap$Ncoefs[j, k], ".", i)
           }
         }
       }
@@ -119,7 +119,7 @@ vs_create_multisample_model <- function(equation = NULL, covariance = NULL, ap =
     }
   }
 
-  cat("Lavvan multi-sample model syntax created...\n")
+  cat("Lavaan multi-sample model syntax created...\n")
 
   VSmodel <- list("Model_spec" = VSmodel, "AP" = ap)
 
@@ -135,12 +135,12 @@ vs_set_equal <- function(model = NULL, ngroups = NULL, effect.equal = NULL) {
     equal_model <- paste0(model, "\n# constraints\n")
     for (i in 1:length(effect.equal)) {
       for (j in 1:(ngroups - 1)) {
-        equal_model <- paste0(equal_model, "  ap", effect.equal[i], ".", j, "==ap", effect.equal[i], ".", j + 1, "\n")
+        equal_model <- paste0(equal_model, "  Eff", effect.equal[i], ".", j, "==Eff", effect.equal[i], ".", j + 1, "\n")
       }
     }
   }
 
-  cat("Lavvan multi-sample model syntax created...\n")
+  cat("Lavaan multi-sample model syntax created...\n")
 
   equal_model
 }

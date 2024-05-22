@@ -56,8 +56,8 @@
 #'    specification of the \code{VS} working model.}
 #'  \item{\code{Order}}{A data frame storing the matrix-form order of moderation of paths
 #'    corresponding to the equation specification.}
-#'  \item{\code{AP}}{A list containing the information of the additional parameters for the
-#'    conditional effects.}
+#'  \item{\code{Eff}}{A list containing the information of the conditional effects.
+#'    If \code{Multisample = FALSE}, value is \code{NULL}.}
 #'  \item{\code{Group}}{A character variable indicating the group variable for the multi-sample
 #'    conditional path model. If \code{Multisample = FALSE}, value is \code{NULL}.}
 #'  \item{\code{N_groups}}{A numerical value containing the number of groups for the multi-sample
@@ -320,7 +320,7 @@ VS <- function(data = NULL, model = NULL, effect = NULL, group = NULL, scale = "
                          "Eq_spec" = working_matrices$Equation,
                          "Cov_spec" = working_matrices$Covariance,
                          "Order" = working_matrices$Order,
-                         "AP" = VSmodel$AP,
+                         "Eff" = VSmodel$AP,
                          "Group" = group,
                          "N_groups" = ngroups,
                          "GroupID"= groupid,
