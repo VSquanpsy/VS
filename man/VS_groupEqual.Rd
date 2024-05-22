@@ -39,8 +39,7 @@ A list containing the information of the \code{VS} model.
    specification of the \code{VS} working model.}
  \item{\code{Order}}{A data frame storing the matrix-form order of moderation of paths
    corresponding to the equation specification.}
- \item{\code{AP}}{A list containing the information of the additional parameters for the
-   conditional effects.}
+ \item{\code{Eff}}{A list containing the information of the conditional effects.}
  \item{\code{Group}}{A character variable indicating the group variable for the multi-sample
    conditional path model.}
  \item{\code{N_groups}}{A numerical value containing the number of groups for the multi-sample
