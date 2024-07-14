@@ -60,7 +60,7 @@
 #'    checking.}
 #' }
 #'
-#' @seealso \link{\code{VS}}
+#' @seealso \code{\link{VS}}
 #' @examples
 #' modelspec <- '
 #'  PV1MATH = MATHEFF
