@@ -14,7 +14,7 @@ A data frame with 4,670 rows and 21 columns:
   \item{PV1SCIE}{Science achievement (plausible value 1)}
   \item{IMMIG}{Immigrant status. 1 = Native; 2 = 2nd Generation; 3 = 1st Generation}
   \item{FAMSTRUC}{Family structure. 1 = Single parent; 2 = Two parents; 3 = Other}
-  \item{FEMALE}{Student gender. 1 = Female; 0 = Male.}
+  \item{GENDER}{Student gender. 1 = Female; 2 = Male.}
   \item{GRADE}{Student grade}
   \item{ESCS}{Index of economic, social and cultural status}
   \item{HEDRES}{Home educational resources}

@@ -88,5 +88,5 @@ VS_group_equal <- VS_groupEqual(VS_group, effect.equal = 2)
 
 }
 \seealso{
-\link{\code{VS}}
+\code{\link{VS}}
 }
