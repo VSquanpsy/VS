@@ -133,8 +133,8 @@ VS_group <- VS(PISA2012HK, model = modelspec, effect = effectspec, group = "IMMI
 Kwan, J. L.-Y., & Chan, W. (2018). Variable System: An alternative approach for the analysis of
   mediated moderation.  Psychological Methods, 23(2), 262-277.
   \doi{https://doi.org/10.1037/met0000160}
+
 Kwan, J. L. Y., Chan, W., Ng, J. C. K., Choi, C. Y. T., & Kwan, K. T. (2023, May). Conditional Path
   Analysis: The Analytical Framework of Mediated Moderation [Paper Presentation]. The 14th Asian
   Conference on the Social Sciences, Tokyo, Japan.
-  {https://acss.iafor.org/presentation/submission70750/}
 }
