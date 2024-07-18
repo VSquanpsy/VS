@@ -1,7 +1,7 @@
 Package: VS
 Type: Package
 Title: Variable System
-Version: 0.1.1
+Version: 0.1.2
 Authors@R: c(person("Wai", "Chan", role = c("aut"), 
                     email = "wchan@cuhk.edu.hk",
                     comment = c(ORCID = "0000-0002-7344-2606")),
