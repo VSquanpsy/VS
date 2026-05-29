@@ -12,7 +12,8 @@ VS_output_summary(output = NULL)
 }
 \description{
 Print the number of variables, number of valid cases, data type, list of variables,
-and description of interactions created of the \code{VS} output data.
+list of recoded dichotomous variables, and list of interactions created of the
+\code{VS} output data.
 }
 \examples{
 modelspec <- '

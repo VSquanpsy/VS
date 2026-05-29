@@ -11,7 +11,7 @@ VS_groupEqual(output = NULL, effect.equal = NULL)
 model created by \code{\link{VS}}.}
 
 \item{effect.equal}{A numerical value or a vector of numerical values of the use-specified
-group equal constraints chosen from the \code{VS} conceptual model.}
+group equal constraints chosen from the \code{VS} conditional effect table.}
 }
 \value{
 A list containing the information of the \code{VS} model.
@@ -26,7 +26,9 @@ A list containing the information of the \code{VS} model.
    values are removed by list-wise deletion. Data is centered if \code{scale = "center"} or
    standardized if \code{scale = "std"}.}
  \item{\code{Categorical}}{A vector of character variables containing the names of categorical
-   variables}
+   variables.}
+ \item{\code{Cat_labels}}{A data frame storing the information of any recoded categorical
+   variables.}
  \item{\code{Int_labels}}{A data frame storing the information of the interactions created.}
  \item{\code{Scale}}{A character variable indicating the scale of the output data
    (\code{"Raw"}, \code{"Centered"}, \code{"Standardized"}, \code{"Centered by group"}, or

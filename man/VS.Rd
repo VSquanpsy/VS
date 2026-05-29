@@ -37,7 +37,7 @@ variables will not be centered and standardized even it is requested in the
 
 \item{estimator}{A character variable containing the estimator to be used in the
 \code{VS} model. Can be \code{"ML"} for maximum likelihood (default), \code{"MLR"}
-  = maximum likelihood with ‘HuberWhite’ robust standard errors, or \code{"GLS"} for
+  for maximum likelihood with ‘HuberWhite’ robust standard errors, or \code{"GLS"} for
   (normal theory) generalized least squares.}
 
 \item{bootstrap}{A numerical value of number of bootstrap draws. If \code{0},
@@ -67,7 +67,9 @@ A list containing the information of the \code{VS} model.
    values are removed by list-wise deletion. Data is centered if \code{scale = "center"} or
    standardized if \code{scale = "std"}.}
  \item{\code{Categorical}}{A vector of character variables containing the names of categorical
-   variables}
+   variables.}
+ \item{\code{Cat_labels}}{A data frame storing the information of any recoded categorical
+   variables.}
  \item{\code{Int_labels}}{A data frame storing the information of the interactions created.}
  \item{\code{Scale}}{A character variable indicating the scale of the output data
    (\code{"Raw"}, \code{"Centered"}, \code{"Standardized"}, \code{"Centered by group"}, or
@@ -80,8 +82,7 @@ A list containing the information of the \code{VS} model.
    specification of the \code{VS} working model.}
  \item{\code{Order}}{A data frame storing the matrix-form order of moderation of paths
    corresponding to the equation specification.}
- \item{\code{Eff}}{A list containing the information of the conditional effects.
-   If \code{Multisample = FALSE}, value is \code{NULL}.}
+ \item{\code{Eff}}{A list containing the information of the conditional effects.}
  \item{\code{Group}}{A character variable indicating the group variable for the multi-sample
    conditional path model. If \code{Multisample = FALSE}, value is \code{NULL}.}
  \item{\code{N_groups}}{A numerical value containing the number of groups for the multi-sample

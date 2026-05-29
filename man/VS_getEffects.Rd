@@ -4,7 +4,7 @@
 \alias{VS_getEffects}
 \title{Get conditional effect table}
 \usage{
-VS_getEffects(output = NULL, groupid = "printall", boot.ci.type = "perc")
+VS_getEffects(output = NULL, groupid = "printall", boot.ci.type = NULL)
 }
 \arguments{
 \item{output}{A \code{VS} list object created by \code{\link{VS}} or
