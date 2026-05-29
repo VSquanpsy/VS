@@ -1,6 +1,6 @@
 # Parse the model syntax into separated paths
 
-vs_parse_model_syntax <- function(vs.env = NULL, data = NULL, model.syntax = NULL) {
+vs_parse_model_syntax <- function(vs.env = NULL, data = NULL, model.syntax = NULL, categorical = NULL) {
 
   # check for empty syntax
   if(nchar(model.syntax) == 0) {
@@ -101,6 +101,9 @@ vs_parse_model_syntax <- function(vs.env = NULL, data = NULL, model.syntax = NUL
       if (type == 1) {
         vs.env <- vs_store_dv(vs.env, lhs)
         Y <- vs.env$ExtraSave
+        if (vs.env$Varnames[Y] %in% categorical) {
+          stop("VS ERROR: Outcome variable or mediator cannot be categorical: ", vs.env$Varnames[Y])
+        }
         if (length(RHS) > 0) {
           for (j in 1:length(RHS)) {
             vs.env <- vs_store_iv(vs.env, RHS[j])

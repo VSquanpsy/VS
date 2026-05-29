@@ -17,7 +17,7 @@
 #'   \code{scale} argument.
 #' @param estimator A character variable containing the estimator to be used in the
 #' \code{VS} model. Can be \code{"ML"} for maximum likelihood (default), \code{"MLR"}
-#'   = maximum likelihood with ‘HuberWhite’ robust standard errors, or \code{"GLS"} for
+#'   for maximum likelihood with ‘HuberWhite’ robust standard errors, or \code{"GLS"} for
 #'   (normal theory) generalized least squares.
 #' @param bootstrap A numerical value of number of bootstrap draws. If \code{0},
 #'   bootstrapping is not used.
@@ -43,7 +43,9 @@
 #'    values are removed by list-wise deletion. Data is centered if \code{scale = "center"} or
 #'    standardized if \code{scale = "std"}.}
 #'  \item{\code{Categorical}}{A vector of character variables containing the names of categorical
-#'    variables}
+#'    variables.}
+#'  \item{\code{Cat_labels}}{A data frame storing the information of any recoded categorical
+#'    variables.}
 #'  \item{\code{Int_labels}}{A data frame storing the information of the interactions created.}
 #'  \item{\code{Scale}}{A character variable indicating the scale of the output data
 #'    (\code{"Raw"}, \code{"Centered"}, \code{"Standardized"}, \code{"Centered by group"}, or
@@ -56,8 +58,7 @@
 #'    specification of the \code{VS} working model.}
 #'  \item{\code{Order}}{A data frame storing the matrix-form order of moderation of paths
 #'    corresponding to the equation specification.}
-#'  \item{\code{Eff}}{A list containing the information of the conditional effects.
-#'    If \code{Multisample = FALSE}, value is \code{NULL}.}
+#'  \item{\code{Eff}}{A list containing the information of the conditional effects.}
 #'  \item{\code{Group}}{A character variable indicating the group variable for the multi-sample
 #'    conditional path model. If \code{Multisample = FALSE}, value is \code{NULL}.}
 #'  \item{\code{N_groups}}{A numerical value containing the number of groups for the multi-sample
@@ -144,10 +145,19 @@ VS <- function(data = NULL, model = NULL, effect = NULL, group = NULL, scale = "
   }
 
   # Check if the categorical argument is valid
+  catlabels <- NULL
   if (!is.null(categorical)) {
     for (i in 1:length(categorical)) {
       if (!(categorical[i] %in% colnames(data))) {
         stop("VS ERROR: Categorical variable not found in data: ", categorical[i])
+      } else {
+        if (length(na.omit(unique(data[, categorical[i]]))) > 2) {
+          stop("VS ERROR: Categorical variable must be dichotomous: ", categorical[i],
+               "\n          For nominal variables with more than 2 categories,",
+               "\n            please create a set of dummies",
+               "\n          For ordinal variables with more than 2 categories,",
+               "\n             create a set of dummies or treat them as a continuous variable")
+        }
       }
     }
   }
@@ -188,7 +198,7 @@ VS <- function(data = NULL, model = NULL, effect = NULL, group = NULL, scale = "
   # Check if model syntax is not null
   # If yes, parse model syntax into separate paths
   if (!is.null(model)) {
-    vs.env <- vs_parse_model_syntax(vs.env, data, model)
+    vs.env <- vs_parse_model_syntax(vs.env, data, model, categorical)
     if (vs.env$nPaths > 0) {
 
       # Check for invalid models
@@ -314,6 +324,7 @@ VS <- function(data = NULL, model = NULL, effect = NULL, group = NULL, scale = "
                          "Conceptual" = conceptual,
                          "Output" = outdata$Data,
                          "Categorical" = catout,
+                         "Cat_labels" = outdata$Cat_labels,
                          "Int_labels" = outdata$Interactions,
                          "Scale" = datascale,
                          "Estimator" = estimator,

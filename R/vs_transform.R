@@ -599,6 +599,7 @@ vs_create_interactions <- function(vs.env = NULL, path = NULL, var = NULL, outco
 
 # Generate output data for working model
 # Center the data if requested and create the interaction terms (if any)
+# Recode categorical variables to (0, 1)
 # Variables are rearranged in the order of endogenous variables followed by exogenous variables
 
 vs_working_data <- function(vs.env = NULL, data = NULL, scale = "raw", categorical = NULL, group = NULL) {
@@ -620,7 +621,7 @@ vs_working_data <- function(vs.env = NULL, data = NULL, scale = "raw", categoric
         }
       }
     } else {
-      groupid <- unique(data[group])[, 1]
+      groupid <- sort(unique(data[group])[, 1])
       ngroups <- length(groupid)
       groupvar <- colnames(data) == group
       groupvec <- data[groupvar]
@@ -648,7 +649,33 @@ vs_working_data <- function(vs.env = NULL, data = NULL, scale = "raw", categoric
       groupvar <- colnames(data) == group
       groupvec <- data[groupvar]
       new_data <- data[!groupvar]
+      catvars <- catvars[!groupvar]
     }
+  }
+
+  # If any categorical variables not equal (0, 1),
+  # recode to (0, 1) and create labels
+  cat_labels <- NULL
+  if (!is.null(categorical)) {
+    for (i in categorical) {
+      if (i %in% colnames(new_data)) {
+        if (min(new_data[i]) != 0 || max(new_data[i] != 1)) {
+          max <- max(new_data[i])
+          min <- min(new_data[i])
+          if (min != 0) {
+            new_data[new_data[i] == min, i] <- 0
+          }
+          if (max != 1) {
+            new_data[new_data[i] == max, i] <- 1
+          }
+          label <- paste0("Recoded ", i, " from (", min, ", ", max, ") to (0, 1)")
+          cat_labels <- rbind(cat_labels, as.data.frame(t(c(i, label, min, max))))
+        }
+      }
+    }
+  }
+  if (!is.null(cat_labels)) {
+    colnames(cat_labels) <- c("Variable", "Label", "Value0", "Value1")
   }
 
   # Create interactions
@@ -684,7 +711,7 @@ vs_working_data <- function(vs.env = NULL, data = NULL, scale = "raw", categoric
     new_data <- cbind(new_data, groupvec)
   }
 
-  outlist <- list("Data" = new_data, "Interactions" = int_desc)
+  outlist <- list("Data" = new_data, "Interactions" = int_desc, "Cat_labels" = cat_labels)
 
   outlist
 }

@@ -288,7 +288,7 @@ VS_getMean <- function(output = NULL, groupid = "printall") {
 
 # Store the conditional effect table of the VS model
 
-VS_getEffects <- function(output = NULL, groupid = "printall", boot.ci.type = "perc") {
+VS_getEffects <- function(output = NULL, groupid = "printall", boot.ci.type = NULL) {
 
   conditional <- NULL
 
@@ -305,7 +305,12 @@ VS_getEffects <- function(output = NULL, groupid = "printall", boot.ci.type = "p
     table[, 1:4] <- output$CondInfo
 
     if (output$Bootstrap > 0) {
-      par <- lavaan::parameterEstimates(output$Model, boot.ci.type = boot.ci.type)
+      if (is.null(boot.ci.type)) {
+        type <- output$CItype
+      } else {
+        type <- boot.ci.type
+      }
+      par <- lavaan::parameterEstimates(output$Model, boot.ci.type = type)
     } else {
       par <- lavaan::parameterEstimates(output$Model)
     }

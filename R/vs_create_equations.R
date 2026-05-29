@@ -362,6 +362,15 @@ vs_decompose_direct <- function(vs.env = NULL, EffectID = NULL) {
               vs.env$EffoutX[i, 1, 1:vs.env$Eqnncoefs[mediator, first_term]+vs.env$nEffcoefs[i, 1]] <- rep(vs.env$EqntermIV[mediator, first_term], vs.env$Eqnncoefs[mediator, first_term])
               vs.env$EffoutY[i, 1, 1:vs.env$Eqnncoefs[mediator, first_term]+vs.env$nEffcoefs[i, 1]] <- rep(mediator, vs.env$Eqnncoefs[mediator, first_term])
               vs.env$nEffcoefs[i, 1] <- vs.env$nEffcoefs[i, 1] + vs.env$Eqnncoefs[mediator, first_term]
+
+              #var <- ""
+              #for (b in 1:vs.env$nEffvars[i]) {
+              #  var <- paste(var, vs.env$Varnames[vs.env$Effvar[i, b]])
+              #}
+              #for (b in 1:vs.env$nEffcoefs[i, 1]) {
+              #  cat ("Eff",i,vs.env$nEffcoefs[i, 1],"a",vs.env$Effcoef[i, 1, b],"(",vs.env$Varnames[vs.env$EffoutX[i, 1, b]],"->",vs.env$Varnames[vs.env$EffoutY[i, 1, b]],")", var,"\n")
+              #}
+
             }
           }
           j <- j - 1
@@ -2720,22 +2729,22 @@ vs_add_effect_terms <- function(vs.env = NULL, matrices = NULL) {
               vs.env$EffAPcoef[i, (vs.env$nEffAPterms[i] - repeat_nterms + 1):vs.env$nEffAPterms[i], 1:ncol(repeat_coef)] <- repeat_coef
             }
           }
-        }
 
-        # Add each term in coef0[j, k, ] to vs.env$EffAPcoef[i, , ]
-        for (k in 1:nterms0[j]) {
-          for (l in ((k - 1) * repeat_nterms + 1):(k * repeat_nterms)) {
-            dim3 <- dim(vs.env$EffAPcoef)[3]
-            for (m in (vs.env$nEffAPcoefs[i, l] + 1):(vs.env$nEffAPcoefs[i, l] + ncoefs0[j, k])) {
-              if (dim3 < m) {
-                dim3 <- dim3 + 1
-                arr <- array(0, c(dim(vs.env$EffAPcoef)[1], dim(vs.env$EffAPcoef)[2], dim3))
-                arr[, , -dim3] <- vs.env$EffAPcoef
-                vs.env$EffAPcoef <- arr
+          # Add each term in coef0[j, k, ] to vs.env$EffAPcoef[i, , ]
+          for (k in 1:nterms0[j]) {
+            for (l in ((k - 1) * repeat_nterms + 1):(k * repeat_nterms)) {
+              dim3 <- dim(vs.env$EffAPcoef)[3]
+              for (m in (vs.env$nEffAPcoefs[i, l] + 1):(vs.env$nEffAPcoefs[i, l] + ncoefs0[j, k])) {
+                if (dim3 < m) {
+                  dim3 <- dim3 + 1
+                  arr <- array(0, c(dim(vs.env$EffAPcoef)[1], dim(vs.env$EffAPcoef)[2], dim3))
+                  arr[, , -dim3] <- vs.env$EffAPcoef
+                  vs.env$EffAPcoef <- arr
+                }
+                vs.env$EffAPcoef[i, l, m] <- coef0[j, k, m - vs.env$nEffAPcoefs[i, l]]
               }
-              vs.env$EffAPcoef[i, l, m] <- coef0[j, k, m - vs.env$nEffAPcoefs[i, l]]
+              vs.env$nEffAPcoefs[i, l] <- vs.env$nEffAPcoefs[i, l] + ncoefs0[j, k]
             }
-            vs.env$nEffAPcoefs[i, l] <- vs.env$nEffAPcoefs[i, l] + ncoefs0[j, k]
           }
         }
       }

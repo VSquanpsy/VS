@@ -110,7 +110,8 @@ VS_printConceptual <- function(output = NULL) {
 #' Print information of output data
 #'
 #' Print the number of variables, number of valid cases, data type, list of variables,
-#' and description of interactions created of the \code{VS} output data.
+#' list of recoded dichotomous variables, and list of interactions created of the
+#' \code{VS} output data.
 #'
 #' @param output A \code{VS} list object created by \code{\link{VS}} or
 #'   \code{\link{VS_groupEqual}}.
@@ -179,6 +180,12 @@ VS_output_summary <- function(output = NULL) {
   }
   cat("\n")
 
+  if (!is.null(output$Cat_labels)) {
+    for (i in 1:nrow(output$Cat_labels)) {
+      cat(output$Cat_labels[i, 2], "\n")
+    }
+    cat("\n")
+  }
   if (!is.null(output$Int_labels)) {
     cat("Interaction Terms Created:\n")
     VS_printInt(output)

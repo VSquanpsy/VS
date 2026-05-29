@@ -74,6 +74,8 @@ vs_create_model <- function(vs.env = NULL, equation = NULL, covariance = NULL) {
   # Add Lavaan syntax for additional parameters
   APnterms <- NULL
   APtotal <- NULL
+  APnsources <- NULL
+  APsources <- matrix(0, 1, ncol(vs.env$Effvar))
   APncoefs <- matrix(0, 1, ncol(vs.env$nEffAPcoefs))
   APcoef <- array(0, c(1, dim(vs.env$EffAPcoef)[2], dim(vs.env$EffAPcoef)[3]))
   nap <- 0
@@ -90,12 +92,17 @@ vs_create_model <- function(vs.env = NULL, equation = NULL, covariance = NULL) {
                   Eff <- vs.env$EffCombo[a, i, j, k]
                   TotalEff[k] <- nap
                   APnterms[nap] <- vs.env$nEffAPterms[Eff]
+                  APnsources[nap] <- vs.env$nEffvars[Eff]
                   if (nap > 1) {
+                    APsources <- rbind(APsources, rep(0, ncol(APsources)))
                     APncoefs <- rbind(APncoefs, rep(0, ncol(APncoefs)))
                     dim1 <- dim(APcoef)[1] + 1
                     arr <- array(0, c(dim1, dim(APcoef)[2], dim(APcoef)[3]))
                     arr[-dim1, , ] <- APcoef
                     APcoef <- arr
+                  }
+                  if (vs.env$nEffvars[Eff] > 0) {
+                    APsources[nap, 1:APnsources[nap]] <- vs.env$Effvar[Eff, 1:vs.env$nEffvars[Eff]]
                   }
                   if (vs.env$nEffAPterms[Eff] > 0) {
                     APncoefs[nap, 1:APnterms[nap]] <- vs.env$nEffAPcoefs[Eff, 1:vs.env$nEffAPterms[Eff]]
@@ -121,6 +128,9 @@ vs_create_model <- function(vs.env = NULL, equation = NULL, covariance = NULL) {
                 if (length(TotalEff) > 1) {
                   nap <- nap + 1
                   APnterms[nap] <- length(TotalEff)
+                  APnsources[nap] <- APnsources[nap - 1]
+                  APsources <- rbind(APsources, rep(0, ncol(APsources)))
+                  APsources[nap, 1:APnsources[nap]] <- APsources[nap - 1, 1:APnsources[nap - 1]]
                   APncoefs <- rbind(APncoefs, rep(0, ncol(APncoefs)))
                   APncoefs[nap, 1:length(TotalEff)] <- TotalEff[1:length(TotalEff)]
                   dim1 <- dim(APcoef)[1] + 1
@@ -146,7 +156,8 @@ vs_create_model <- function(vs.env = NULL, equation = NULL, covariance = NULL) {
 
   cat("Lavaan model syntax created...\n")
 
-  AP <- list("Nterms" = APnterms, "Ncoefs" = APncoefs, "Coefs" = APcoef)
+  AP <- list("Nterms" = APnterms, "Nsources" = APnsources, "Sources" = APsources,
+             "Ncoefs" = APncoefs, "Coefs" = APcoef)
   Model <- list("Model_spec" = VSmodel, "AP" = AP)
 
   Model

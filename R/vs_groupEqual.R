@@ -7,7 +7,7 @@
 #' @param output A \code{VS} list object containing the information of the \code{VS} multi-sample
 #'   model created by \code{\link{VS}}.
 #' @param effect.equal A numerical value or a vector of numerical values of the use-specified
-#'   group equal constraints chosen from the \code{VS} conceptual model.
+#'   group equal constraints chosen from the \code{VS} conditional effect table.
 #'
 #' @return A list containing the information of the \code{VS} model.
 #'
@@ -21,7 +21,9 @@
 #'    values are removed by list-wise deletion. Data is centered if \code{scale = "center"} or
 #'    standardized if \code{scale = "std"}.}
 #'  \item{\code{Categorical}}{A vector of character variables containing the names of categorical
-#'    variables}
+#'    variables.}
+#'  \item{\code{Cat_labels}}{A data frame storing the information of any recoded categorical
+#'    variables.}
 #'  \item{\code{Int_labels}}{A data frame storing the information of the interactions created.}
 #'  \item{\code{Scale}}{A character variable indicating the scale of the output data
 #'    (\code{"Raw"}, \code{"Centered"}, \code{"Standardized"}, \code{"Centered by group"}, or
@@ -97,7 +99,7 @@ VS_groupEqual <- function (output=NULL, effect.equal=NULL) {
   } else if (!is.null(output$Constraints)) {
     stop("VS ERROR: Please provide a non-constrainted VS multi-sample list object")
   } else if (is.null(effect.equal)) {
-    stop("VS ERROR: Please specific the effect.equal constraints")
+    stop("VS ERROR: Please specify the effect.equal constraints")
   } else if (!(sum(effect.equal %in% rownames(output$CondInfo)) == length(effect.equal))) {
     stop("VS ERROR: Invalid effect.equal constraints")
   } else {
@@ -124,6 +126,7 @@ VS_groupEqual <- function (output=NULL, effect.equal=NULL) {
                                 "Conceptual" = output$Conceptual,
                                 "Output" = output$Output,
                                 "Categorical" = output$Categorical,
+                                "Cat_labels" = output$Cat_labels,
                                 "Int_labels" = output$Int_labels,
                                 "Scale" = output$Scale,
                                 "Estimator" = output$Estimator,
