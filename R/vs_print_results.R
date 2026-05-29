@@ -1033,7 +1033,7 @@ VS_printParameters <- function(output = NULL, boot.ci.type = NULL) {
 VS_summary <- function(output = NULL) {
 
   cat("VS", output$Version, "\nBy W. Chan, J. L.-Y. Kwan, Y.-T. Choi, & J. C.-K. Ng\n",
-      " Chan, W., Kwan, J. L.-Y., Choi, Y.-T., & Ng, J. C.-K. (2024).\n",
+      " Chan, W., Kwan, J. L.-Y., Choi, Y.-T., & Ng, J. C.-K. (2026).\n",
       " Variable System (VS). R package version", paste0(output$Version,".\n"),
       " https://vsquanpsy.wixsite.com/home\n\n")
 
