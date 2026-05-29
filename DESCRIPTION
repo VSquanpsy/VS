@@ -1,7 +1,7 @@
 Package: VS
 Type: Package
 Title: Variable System
-Version: 0.1.2
+Version: 0.1.3
 Authors@R: c(person("Wai", "Chan", role = c("aut"), 
                     email = "wchan@cuhk.edu.hk",
                     comment = c(ORCID = "0000-0002-7344-2606")),
@@ -24,7 +24,7 @@ Description: The Variable System (VS) is an R package for the analysis of
     (2) estimate the basic model parameters, 
     (3) compute and test the conditional effects of interest, and
     (4) evaluate the model goodness-of-fit.
-Depends: R (>= 4.2.0)
+Depends: R (>= 4.3.0)
 Imports:
     lavaan, stats
 License: GPL (>= 3)
